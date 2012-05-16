@@ -1,0 +1,22 @@
+{
+  "author": "Mike Heffner <mike@librato.com>",
+  "name": "statsd-librato-backend",
+  "description": "A StatsD backend for Librato Metrics",
+  "version": "0.0.0",
+  "homepage": "https://github.com/librato/statsd-librato-backend",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/librato/statsd-librato-backend.git"
+  },
+  "keywords": [
+    "librato",
+    "metrics",
+    "statsd"
+  ],
+  "engines": {
+    "node": ">=0.4"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "main": "lib/librato.js"
+}
