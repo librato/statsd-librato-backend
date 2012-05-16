@@ -2,12 +2,12 @@
 
 ## Overview
 
-This is a pluggable backend for [StatsD](https://github.com/etsy/statsd), which
+This is a pluggable backend for [StatsD][statsd], which
 publishes stats to [Librato Metrics](https://metrics.librato.com).
 
 ## Requirements
 
-* [StatsD](https://github.com/etsy/statsd) versions >= 0.3.0.
+* [StatsD][statsd] versions >= 0.3.0.
 * An active [Librato Metrics](https://metrics.librato.com/sign_up) account.
 
 ## Installation
@@ -63,7 +63,70 @@ options under the top-level `librato` hash:
                       provides an easy upgrade path. Defaults to
                       false.
 
-## Dependencies
+## Upgrading from the old Librato statsd fork
+
+If you are upgrading from the old Librato [statsd
+fork](https://github.com/librato/statsd), then the minimal upgrade
+steps are:
+
+1. Upgrade to the latest Etsy [statsd fork][statsd].
+2. Install the Librato backend: `npm install statsd-librato-backend`.
+3. Swap the statsd configuration variable `graphService` with
+the `backends` list. So if you old configuration looked like:
+
+```js
+{
+  graphService: "librato-metrics",
+  libratoUser: "myemail@example.com",
+  libratoApiKey: "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
+  ...
+}
+```
+
+Then your new configuration would look like:
+
+
+```js
+{
+  backends: ["statsd-librato-backend"],
+  libratoUser: "myemail@example.com",
+  libratoApiKey: "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
+  ...
+}
+```
+
+The Librato backend will automatically detect a legacy configuration
+file and set `countersAsGauges` to *true* to maintain backwards
+compatibility.
+
+### Upgrading to native counters
+
+If you would like to upgrade to native Librato Metrics counters, then
+you'll need to:
+
+1. Stop all statsd daemons.
+2. Switch to the new configuration format listed at the top of this
+file, ensuring that `countersAsGauges` is *false* or not set.
+3. Delete all your previous counters that were published as gauges to
+Librato Metrics either via the UX or the [API](http://dev.librato.com).
+4. Restart your statsd instances.
+
+## Publishing to Graphite and Librato Metrics simultaneously
+
+You can push metrics to Graphite and Librato Metrics simultaneously as
+you evaluate Librato. Just include both backends in the `backends`
+variable:
+
+```js
+{
+  backends: [ "./backends/graphite", "statsd-librato-backend" ],
+  ...
+}
+```
+
+See the [statsd][statsd] manpage for more information.
+
+## NPM Dependencies
 
 None
 
@@ -78,3 +141,5 @@ If you want to contribute:
 3. If you are adding new functionality, document it in the README
 4. Push the branch up to GitHub
 5. Send a pull request
+
+[statsd]: https://github.com/etsy/statsd
