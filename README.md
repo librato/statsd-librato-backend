@@ -107,9 +107,9 @@ you'll need to:
 1. Stop all statsd daemons.
 2. Switch to the new configuration format listed at the top of this
 file, ensuring that `countersAsGauges` is *false* or not set.
-3. Delete all your previous counters that were published as gauges to
-Librato Metrics either via the UX or the [API](http://dev.librato.com).
-4. Restart your statsd instances.
+3. Using the UX or [API](http://dev.librato.com), delete all
+statsd counters that were originally published as gauges to Librato Metrics.
+4. Restart all statsd daemons.
 
 ## Publishing to Graphite and Librato Metrics simultaneously
 
