@@ -12,7 +12,8 @@ publishes stats to [Librato Metrics](https://metrics.librato.com).
 
 ## Installation
 
-    npm install statsd-librato-backend
+    $ cd /path/to/statsd
+    $ npm install statsd-librato-backend
 
 ## Configuration
 
@@ -70,7 +71,8 @@ fork](https://github.com/librato/statsd), then the minimal upgrade
 steps are:
 
 1. Upgrade to the latest [Etsy statsd][statsd].
-2. Install the Librato backend: `npm install statsd-librato-backend`.
+2. In the statsd directory, install the Librato backend: `npm install
+statsd-librato-backend`.
 3. Swap the statsd configuration variable `graphService` with
 the `backends` list. So if your old configuration looked like:
 
