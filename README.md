@@ -64,6 +64,12 @@ options under the top-level `librato` hash:
                       provides an easy upgrade path. Defaults to
                       false.
 
+* `skipInternalMetrics`: Boolean of whether to skip publishing of
+                         internal statsd metrics. This includes all
+                         metrics beginning with 'statsd.' and the
+                         metric numStats. Default false -- they are
+                         published to Librato.
+
 ## Upgrading from the old Librato statsd fork
 
 If you are upgrading from the old Librato [statsd
