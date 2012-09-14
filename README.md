@@ -151,10 +151,12 @@ After that you should add the proxy config to the statsD config file
 
 ```js
 {
+    libratoProxyType: "http",
     libratoProxyHost: "127.0.0.1",
     libratoProxyPort: 8080
 }
 ```
+**libratoProxyType** can be http or https depending on your proxy server
 
 ## NPM Dependencies
 
