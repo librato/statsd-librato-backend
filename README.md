@@ -49,7 +49,9 @@ pushed to your Librato Metrics account.
 The Librato backend also supports the following optional configuration
 options under the top-level `librato` hash:
 
-* `source`: An optional source name to use for all measurements.
+* `source`: An optional source name to use for all measurements.  If a metric name
+            contains a source value (metric name formatted as: 'source_name/metric_name'), the
+            metric specific name will take precedence over this value.
 
 * `snapTime`: Measurement timestamps are snapped to this interval
               (specified in seconds). This makes it easier to align
