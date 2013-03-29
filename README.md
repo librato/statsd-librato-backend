@@ -140,23 +140,29 @@ variable:
 
 See the [statsd][statsd] manpage for more information.
 
-##Using Proxy
+## Using Proxy
 
 If you want to use statsd-librato-backend througth a proxy you should
 install **tunnel** module:
 
         $npm install tunnel
 
-After that you should add the proxy config to the statsD config file
+After that you should add the *proxy* config to the StatsD config file
+in the librato configuration section:
 
 ```js
 {
-    libratoProxyType: "http",
-    libratoProxyHost: "127.0.0.1",
-    libratoProxyPort: 8080
+  "librato" : {
+    "proxy" : {
+      "uri" : "http://127.0.0.01:8080"
+    }
+  }
 }
 ```
-**libratoProxyType** can be http or https depending on your proxy server
+
+That configuration will proxy requests via a proxy listening on
+localhost on port 8080. You can also use an https proxy by setting the
+protocol to https in the URI.
 
 ## NPM Dependencies
 
