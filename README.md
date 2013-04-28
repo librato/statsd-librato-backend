@@ -70,6 +70,12 @@ options under the top-level `librato` hash:
                          metric numStats. Default false -- they are
                          published to Librato.
 
+* `retryDelaySecs`: How long to wait before retrying a failed
+                    request, in seconds.
+
+* `postTimeoutSecs`: Max time for POST requests to Librato, in
+                     seconds.
+
 ## Upgrading from the old Librato statsd fork
 
 If you are upgrading from the old Librato [statsd
