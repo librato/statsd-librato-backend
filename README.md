@@ -23,8 +23,9 @@ StatsD config file.
 ```js
 {
   librato: {
-    email: "myemail@example.com",
-    token: "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
+    email:  "myemail@example.com",
+    token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
+    source: "unique-per-statsd-instance"
   }
 }
 ```
@@ -49,7 +50,9 @@ pushed to your Librato Metrics account.
 The Librato backend also supports the following optional configuration
 options under the top-level `librato` hash:
 
-* `source`: An optional source name to use for all measurements.
+* `source`: An optional-but-recommended source name to use for all
+            measurements. This should be unique for each statsd
+            process.
 
 * `snapTime`: Measurement timestamps are snapped to this interval
               (specified in seconds). This makes it easier to align
