@@ -54,6 +54,17 @@ options under the top-level `librato` hash:
             measurements. This should be unique for each statsd
             process.
 
+* `sourceRegex`: An optional JavaScript regular expression to extract
+                 the source name from the measurement name. The first
+                 capturing group of the regex is used as the source name,
+                 and everything not matched will be the measurement name.
+
+                 Examples formats:
+
+                 "SOURCE.MEASURE" => /^([^\.]+)\./
+                 "MEASURE.SOURCE" => /\.([^\.]+)$/
+                 "server.SOURCE.MEASURE" => /^server\.([^\.]+)\./
+
 * `snapTime`: Measurement timestamps are snapped to this interval
               (specified in seconds). This makes it easier to align
               measurements sent from multiple statsd instances on a
