@@ -81,8 +81,8 @@ options under the top-level `librato` hash:
 * `skipInternalMetrics`: Boolean of whether to skip publishing of
                          internal statsd metrics. This includes all
                          metrics beginning with 'statsd.' and the
-                         metric numStats. Default false -- they are
-                         published to Librato.
+                         metric numStats. Defaults to true, implying
+                         they are not sent.
 
 * `retryDelaySecs`: How long to wait before retrying a failed
                     request, in seconds.
