@@ -93,43 +93,6 @@ options under the top-level `librato` hash:
 * `postTimeoutSecs`: Max time for POST requests to Librato, in
                      seconds.
 
-## Upgrading from the old Librato statsd fork
-
-If you are upgrading from the old Librato [statsd
-fork](https://github.com/librato/statsd), then the minimal upgrade
-steps are:
-
-1. Upgrade to the latest [Etsy statsd][statsd].
-2. In the statsd directory, install the Librato backend: `npm install
-statsd-librato-backend`.
-3. Swap the statsd configuration variable `graphService` with
-the `backends` list. So if your old configuration looked like:
-
-```js
-{
-  graphService: "librato-metrics",
-  libratoUser: "myemail@example.com",
-  libratoApiKey: "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
-  ...
-}
-```
-
-Then your new configuration would look like:
-
-
-```js
-{
-  backends: ["statsd-librato-backend"],
-  libratoUser: "myemail@example.com",
-  libratoApiKey: "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
-  ...
-}
-```
-
-The Librato backend will automatically detect a legacy configuration
-file and set `countersAsGauges` to *true* to maintain backwards
-compatibility.
-
 ### Upgrading to native counters
 
 If you would like to upgrade to native Librato Metrics counters, then
