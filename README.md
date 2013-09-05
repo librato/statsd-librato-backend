@@ -30,6 +30,13 @@ StatsD config file.
 }
 ```
 
+The *email* and *token* settings can be found on your Librato account
+settings page. The *source* is an optional-but-recommended string to
+use as a
+[source](http://support.metrics.librato.com/knowledgebase/articles/47904-what-is-a-source-)
+for all measurements from this statsd instance. This should be unique
+for each statsd process.
+
 ## Enabling
 
 Add the `statsd-librato-backend` backend to the list of StatsD
@@ -49,10 +56,6 @@ pushed to your Librato Metrics account.
 
 The Librato backend also supports the following optional configuration
 options under the top-level `librato` hash:
-
-* `source`: An optional-but-recommended source name to use for all
-            measurements. This should be unique for each statsd
-            process.
 
 * `sourceRegex`: An optional JavaScript regular expression to extract
                  the source name from the measurement name. The first
@@ -81,8 +84,8 @@ options under the top-level `librato` hash:
 * `skipInternalMetrics`: Boolean of whether to skip publishing of
                          internal statsd metrics. This includes all
                          metrics beginning with 'statsd.' and the
-                         metric numStats. Default false -- they are
-                         published to Librato.
+                         metric numStats. Defaults to true, implying
+                         they are not sent.
 
 * `retryDelaySecs`: How long to wait before retrying a failed
                     request, in seconds.
