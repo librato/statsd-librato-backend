@@ -7,7 +7,7 @@ publishes stats to [Librato Metrics](https://metrics.librato.com).
 
 ## Requirements
 
-* [StatsD][statsd] versions >= 0.3.0.
+* [StatsD][statsd] versions >= 0.6.0.
 * An active [Librato Metrics](https://metrics.librato.com/sign_up) account.
 
 ## Installation
