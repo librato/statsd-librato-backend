@@ -99,6 +99,37 @@ options under the top-level `librato` hash:
 * `postTimeoutSecs`: Max time for POST requests to Librato, in
                      seconds.
 
+## Reducing published data for inactive counters/gauges
+
+By default StatsD will push a zero value for any counter that does not
+receive an update during a flush interval. Similarly, it will continue
+to push the last seen value of any gauge that hasn't received an
+update during the flush interval. This is required for some backend
+systems that can not handle sporadic metric reports and therefore
+require a fixed frequency of incoming metrics. However, it requires
+StatsD to track all known gauges and counters and means that published
+payloads are inflated with zero-fill data.
+
+Librato can handle sporadic metric publishing at non-fixed
+frequencies. Any "zero filling" of graphs is handled at display time
+on the frontend. Therefore, when using the Librato backend it is
+beneficial for bandwidth and measurement-pricing costs to reduce the
+amount of data sent to Librato. In the StatsD configuration file it is
+recommended that you enable the two following top-level configuration
+directives:
+
+```json
+{
+   deleteCounters: true,
+   deleteGauges: true
+}
+```
+
+You can configure your metric in Librato to display the gaps between
+sporadic reports in a variety of ways. Visit the [knowledge base
+article](http://support.metrics.librato.com/knowledgebase/articles/98900-what-if-i-am-reporting-metrics-at-irregular-interv)
+to see how to change the display attributes.
+
 ## Publishing to Graphite and Librato Metrics simultaneously
 
 You can push metrics to Graphite and Librato Metrics simultaneously as
