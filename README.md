@@ -74,12 +74,18 @@ options under the top-level `librato` hash:
               single graph. Default is to use the flush interval time.
 
 * `countersAsGauges`: A boolean that controls whether StatsD counters
-                      are sent as native Librato Metrics counters
-                      (default) or as Librato Metrics gauges. The
-                      original Librato statsd fork sent StatsD
-                      counters as gauges instead of counters, so this
-                      provides an easy upgrade path. Defaults to
-                      false.
+                      are sent to Librato as gauge values (default) or
+                      as counters. When set to true (default), the
+                      backend will send the aggregate value of all
+                      increment/decrement operations during a flush
+                      period as a gauge measurement to Librato.
+
+                      When set to false, the backend will track the
+                      running value of all counters and submit the
+                      current absolute value to Librato as a
+                      counter. This will require some additional
+                      memory overhead and processing time to track the
+                      running value of all counters.
 
 * `skipInternalMetrics`: Boolean of whether to skip publishing of
                          internal statsd metrics. This includes all
@@ -92,18 +98,6 @@ options under the top-level `librato` hash:
 
 * `postTimeoutSecs`: Max time for POST requests to Librato, in
                      seconds.
-
-### Upgrading to native counters
-
-If you would like to upgrade to native Librato Metrics counters, then
-you'll need to:
-
-1. Stop all statsd daemons.
-2. Switch to the new configuration format listed at the top of this
-file, ensuring that `countersAsGauges` is *false* or not set.
-3. Using the UX or [API](http://dev.librato.com), delete all
-statsd counters that were originally published as gauges to Librato Metrics.
-4. Restart all statsd daemons.
 
 ## Publishing to Graphite and Librato Metrics simultaneously
 
