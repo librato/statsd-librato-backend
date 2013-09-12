@@ -35,7 +35,8 @@ settings page. The *source* is an optional-but-recommended string to
 use as a
 [source](http://support.metrics.librato.com/knowledgebase/articles/47904-what-is-a-source-)
 for all measurements from this statsd instance. This should be unique
-for each statsd process.
+for each statsd process. If unset, the source will default to the
+node's hostname.
 
 ## Enabling
 
