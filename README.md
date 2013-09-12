@@ -115,13 +115,14 @@ frequencies. Any "zero filling" of graphs is handled at display time
 on the frontend. Therefore, when using the Librato backend it is
 beneficial for bandwidth and measurement-pricing costs to reduce the
 amount of data sent to Librato. In the StatsD configuration file it is
-recommended that you enable the two following top-level configuration
-directives:
+recommended that you enable the following top-level configuration
+directives to reduce the amount of zero-fill data StatsD sends:
 
 ```json
 {
    deleteCounters: true,
-   deleteGauges: true
+   deleteGauges: true,
+   deleteSets: true
 }
 ```
 
