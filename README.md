@@ -130,6 +130,32 @@ sporadic reports in a variety of ways. Visit the [knowledge base
 article](http://support.metrics.librato.com/knowledgebase/articles/98900-what-if-i-am-reporting-metrics-at-irregular-interv)
 to see how to change the display attributes.
 
+## Setting the source per-metric
+
+All metrics sent by the statsd server will use the source name
+configured in the global configuration file. You can also set a source
+name on a per-stat basis by leveraging the `sourceRegex`
+configuration option. The statsd protocol only supports a single name
+string per stat, so to specify a source name you have to include it
+in the stat name. The `sourceRegex` option sets a regular expression
+filter that splits the source and metric names from the single statsd
+stat name.
+
+For example, to prefix your stat name with a source name separated by
+a period, you would use the `sourceRegex`:
+```
+{
+  sourceRegex: /^([^\.]+)\./
+}
+```
+Sending a stat name of *web-prod-23.api-requests.2xx* would use a metric name
+of *api-requests.2xx* and a source name of *web-prod-23*.
+
+Unfortunately, the set of characters that you can use to delimit
+source from metric is limited to: `[a-zA-Z_\-0-9\.]`. The statsd
+daemon will substitute any characters not in that set before passing
+the stat to the Librato backend.
+
 ## Publishing to Graphite and Librato Metrics simultaneously
 
 You can push metrics to Graphite and Librato Metrics simultaneously as
