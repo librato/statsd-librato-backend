@@ -100,7 +100,7 @@ options under the top-level `librato` hash:
 * `postTimeoutSecs`: Max time for POST requests to Librato, in
                      seconds.
 
-## Reducing published data for inactive counters/gauges
+## Reducing published data for inactive stats
 
 By default StatsD will push a zero value for any counter that does not
 receive an update during a flush interval. Similarly, it will continue
@@ -117,13 +117,11 @@ on the frontend. Therefore, when using the Librato backend it is
 beneficial for bandwidth and measurement-pricing costs to reduce the
 amount of data sent to Librato. In the StatsD configuration file it is
 recommended that you enable the following top-level configuration
-directives to reduce the amount of zero-fill data StatsD sends:
+directive to reduce the amount of zero-fill data StatsD sends:
 
 ```json
 {
-   deleteCounters: true,
-   deleteGauges: true,
-   deleteSets: true
+   deleteIdleStats: true
 }
 ```
 
