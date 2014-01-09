@@ -199,6 +199,25 @@ protocol to https in the URI.
 
 None
 
+## Upgrading from versions prior to 0.1.0
+
+If you are upgrading from the statsd-librato-backend before version
+0.1.0, the default representation for counter metrics has
+changed. Starting with 0.1.0, statsd counters are now represented as
+Librato gauges by default. If you were using the default configuration
+prior to 0.1.0, then you may run into conflicts when you try to push
+statsd counter metrics to Librato as gauges. To fix this, you have two
+options:
+
+1) Keep the prior behavior of sending statsd counters as Librato
+counters. Just set the `countersAsGauges` configuration variable to
+*false* in your statsd config.
+
+2) After upgrading to 0.1.0, remove all counter metrics that were
+published by statsd. You can use the API pattern DELETE route to mass
+delete metrics. To delete only counter metrics, add the parameter
+`metric_type=counter`.
+
 ## Development
 
 - [Librato Metrics Backend](https://github.com/librato/statsd-librato-backend)
