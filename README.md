@@ -63,7 +63,7 @@ options under the top-level `librato` hash:
                  capturing group of the regex is used as the source name,
                  and everything not matched will be the measurement name.
 
-                 Examples formats:
+                 Example formats:
 
                  "SOURCE.MEASURE" => /^([^\.]+)\./
                  "MEASURE.SOURCE" => /\.([^\.]+)$/
