@@ -1,5 +1,7 @@
 # StatsD Librato Metrics backend
 
+[![NPM version](https://badge.fury.io/js/statsd-librato-backend.svg)](http://badge.fury.io/js/statsd-librato-backend)
+
 ## Overview
 
 This is a pluggable backend for [StatsD][statsd], which
