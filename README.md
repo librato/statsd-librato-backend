@@ -1,16 +1,16 @@
-# StatsD Librato Metrics backend
+# StatsD Librato backend
 
 [![NPM version](https://badge.fury.io/js/statsd-librato-backend.svg)](http://badge.fury.io/js/statsd-librato-backend)
 
 ## Overview
 
 This is a pluggable backend for [StatsD][statsd], which
-publishes stats to [Librato Metrics](https://metrics.librato.com).
+publishes stats to [Librato](https://metrics.librato.com).
 
 ## Requirements
 
 * [StatsD][statsd] versions >= 0.6.0.
-* An active [Librato Metrics](https://metrics.librato.com/sign_up) account.
+* An active [Librato](https://metrics.librato.com/sign_up) account.
 
 ## Installation
 
@@ -52,7 +52,7 @@ backends in the StatsD configuration file:
 ```
 
 Start/restart the statsd daemon and your StatsD metrics should now be
-pushed to your Librato Metrics account.
+pushed to your Librato account.
 
 
 ## Additional configuration options
@@ -158,9 +158,9 @@ source from metric is limited to: `[a-zA-Z_\-0-9\.]`. The statsd
 daemon will substitute any characters not in that set before passing
 the stat to the Librato backend.
 
-## Publishing to Graphite and Librato Metrics simultaneously
+## Publishing to Graphite and Librato simultaneously
 
-You can push metrics to Graphite and Librato Metrics simultaneously as
+You can push metrics to Graphite and Librato simultaneously as
 you evaluate Librato. Just include both backends in the `backends`
 variable:
 
@@ -222,7 +222,7 @@ delete metrics. To delete only counter metrics, add the parameter
 
 ## Development
 
-- [Librato Metrics Backend](https://github.com/librato/statsd-librato-backend)
+- [Librato Backend](https://github.com/librato/statsd-librato-backend)
 
 If you want to contribute:
 
