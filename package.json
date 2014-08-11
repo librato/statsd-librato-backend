@@ -18,5 +18,8 @@
   },
   "dependencies": {},
   "devDependencies": {},
-  "main": "lib/librato.js"
+  "main": "lib/librato.js",
+  "scripts": {
+    "test": "nodeunit test"
+  }
 }
