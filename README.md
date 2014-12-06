@@ -102,23 +102,28 @@ options under the top-level `librato` hash:
 * `postTimeoutSecs`: Max time for POST requests to Librato, in
                      seconds.
 
-* `filters`: An array of JavaScript regular expressions allows
-             only matching metrics to be sent to Librato. Defaults to
-			 an empty array.
+* `includeMetrics`: An array of JavaScript regular expressions. Only metrics
+					that match any of the regular expressions will be sent to Librato.
+					Defaults to an empty array.
 
 ```js
 {
-   filters: [/^my\.included\.metrics/, /^my.specifically.included.metric$/]
+   includeMetrics: [/^my\.included\.metrics/, /^my.specifically.included.metric$/]
 }
 ```
 
-* `excludes`: An array of JavaScript regular expressions that excludes
-              matching metrics from being sent to Librato. Defaults to
-			  an empty array.
+* `excludeMetrics`: An array of JavaScript regular expressions. Metrics which match
+					any of the regular expressions will NOT be sent to Librato. If includedMetrics
+					is specified, then patterns will be matched against the resulting
+					list of included metrics.
+					Defaults to an empty array.
+			  
+			  Metrics which are sent to StatsDThis will exclude metrics sent to StatsD so that metrics which
+			  match the specified regex value 
 
 ```js
 {
-   excludes: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]
+   excludeMetrics: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]
 }
 ```
 
