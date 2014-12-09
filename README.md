@@ -102,6 +102,31 @@ options under the top-level `librato` hash:
 * `postTimeoutSecs`: Max time for POST requests to Librato, in
                      seconds.
 
+* `includeMetrics`: An array of JavaScript regular expressions. Only metrics
+					that match any of the regular expressions will be sent to Librato.
+					Defaults to an empty array.
+
+```js
+{
+   includeMetrics: [/^my\.included\.metrics/, /^my.specifically.included.metric$/]
+}
+```
+
+* `excludeMetrics`: An array of JavaScript regular expressions. Metrics which match
+					any of the regular expressions will NOT be sent to Librato. If includedMetrics
+					is specified, then patterns will be matched against the resulting
+					list of included metrics.
+					Defaults to an empty array.
+			  
+			  Metrics which are sent to StatsDThis will exclude metrics sent to StatsD so that metrics which
+			  match the specified regex value 
+
+```js
+{
+   excludeMetrics: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]
+}
+```
+
 ## Reducing published data for inactive stats
 
 By default StatsD will push a zero value for any counter that does not
