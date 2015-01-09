@@ -127,6 +127,9 @@ options under the top-level `librato` hash:
 }
 ```
 
+* `globalPrefix`: A string to prepend to all measurement names sent to Librato. If set, a dot
+                  will automatically be added as separator between prefix and measurement name.
+
 ## Reducing published data for inactive stats
 
 By default StatsD will push a zero value for any counter that does not
