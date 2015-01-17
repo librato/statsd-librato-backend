@@ -2,7 +2,7 @@
   "author": "Mike Heffner <mike@librato.com>",
   "name": "statsd-librato-backend",
   "description": "A StatsD backend for Librato Metrics",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "https://github.com/librato/statsd-librato-backend",
   "repository": {
     "type": "git",
