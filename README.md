@@ -32,6 +32,22 @@ StatsD config file.
 }
 ```
 
+Example Full Configuration File:
+
+```js
+{
+  librato: {
+    email:  "myemail@example.com",
+    token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
+    source: "unique-per-statsd-instance"
+  }
+  , backends: ["statsd-librato-backend"]
+  , port: 8125
+  
+}
+```
+
+
 The *email* and *token* settings can be found on your Librato account
 settings page. The *source* is an optional-but-recommended string to
 use as a
