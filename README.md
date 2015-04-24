@@ -43,7 +43,6 @@ Example Full Configuration File:
   }
   , backends: ["statsd-librato-backend"]
   , port: 8125
-  
 }
 ```
 
