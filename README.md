@@ -31,7 +31,7 @@ StatsD config file.
 }
 ```
 
-Example Full Config
+Example Full Configuration File:
 
 ```js
 {
@@ -39,11 +39,10 @@ Example Full Config
     email:  "myemail@example.com",
     token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
     source: "unique-per-statsd-instance"
-}
+  }
   , backends: ["statsd-librato-backend"]
   , port: 8125
-  , debug: true
-  , dumpMessages: true
+  
 }
 ```
 
