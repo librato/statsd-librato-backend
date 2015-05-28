@@ -76,9 +76,9 @@ The Librato backend also supports the following optional configuration
 options under the top-level `librato` hash:
 
 * `sourceRegex`: An optional JavaScript regular expression to extract
-                 the source name from the measurement name. The first
+                 the source name from the metric name. The first
                  capturing group of the regex is used as the source name,
-                 and everything not matched will be the measurement name.
+                 and everything not matched will be the metric name.
 
                  Example formats:
 
