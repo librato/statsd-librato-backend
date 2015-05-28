@@ -82,9 +82,9 @@ options under the top-level `librato` hash:
 
                  Example formats:
 
-                 "SOURCE.MEASURE" => /^([^\.]+)\./
-                 "MEASURE.SOURCE" => /\.([^\.]+)$/
-                 "server.SOURCE.MEASURE" => /^server\.([^\.]+)\./
+                 "SOURCE.METRIC" => /^([^\.]+)\./
+                 "METRIC.SOURCE" => /\.([^\.]+)$/
+                 "server.SOURCE.METRIC" => /^server\.([^\.]+)\./
 
 * `snapTime`: Measurement timestamps are snapped to this interval
               (specified in seconds). This makes it easier to align
