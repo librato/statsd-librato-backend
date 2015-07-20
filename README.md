@@ -118,8 +118,8 @@ options under the top-level `librato` hash:
                      seconds.
 
 * `includeMetrics`: An array of JavaScript regular expressions. Only metrics
-					that match any of the regular expressions will be sent to Librato.
-					Defaults to an empty array.
+                    that match any of the regular expressions will be sent to Librato.
+                    Defaults to an empty array.
 
 ```js
 {
@@ -128,13 +128,13 @@ options under the top-level `librato` hash:
 ```
 
 * `excludeMetrics`: An array of JavaScript regular expressions. Metrics which match
-					any of the regular expressions will NOT be sent to Librato. If includedMetrics
-					is specified, then patterns will be matched against the resulting
-					list of included metrics.
-					Defaults to an empty array.
-			  
-			  Metrics which are sent to StatsDThis will exclude metrics sent to StatsD so that metrics which
-			  match the specified regex value 
+                    any of the regular expressions will NOT be sent to Librato. If includedMetrics
+                    is specified, then patterns will be matched against the resulting
+                    list of included metrics.
+                    Defaults to an empty array.
+
+              Metrics which are sent to StatsDThis will exclude metrics sent to StatsD so that metrics which
+              match the specified regex value
 
 ```js
 {
@@ -219,9 +219,9 @@ See the [statsd][statsd] manpage for more information.
 ## Using Proxy
 
 If you want to use statsd-librato-backend througth a proxy you should
-install **tunnel** module:
+install **https-proxy-agent** module:
 
-        $npm install tunnel
+        $npm install https-proxy-agent
 
 After that you should add the *proxy* config to the StatsD config file
 in the librato configuration section:
