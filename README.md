@@ -237,6 +237,10 @@ That configuration will proxy requests via a proxy listening on
 localhost on port 8080. You can also use an https proxy by setting the
 protocol to https in the URI.
 
+## Tags
+
+TODO
+
 ## NPM Dependencies
 
 None
