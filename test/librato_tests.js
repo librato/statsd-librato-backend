@@ -35,8 +35,9 @@ module.exports = {
         req.on('end', function() {
           var body = JSON.parse(data),
               gauges = {};
-          for (var k in body.gauges) {
-            gauges[body.gauges[k].name] = body.gauges[k].value;
+              
+          for (var k in body.measurements) {
+            gauges[body.measurements[k].name] = body.measurements[k].value;
           }
           if (reject_metric) {
             test.ok(gauges.bad_counter);
@@ -61,9 +62,11 @@ module.exports = {
               server.once('request', api_mock(false));
               emitter.emit('flush', 123, metrics);
             }, 100);
+            
           } else {
             res.writeHead(200, {});
             res.end('');
+            
 
             test.strictEqual(gauges.bad_counter, undefined);
             test.ok(gauges.cool_gauge);
@@ -79,7 +82,7 @@ module.exports = {
       librato: {
         email: '-@-',
         token: '-',
-        api: 'http://127.0.0.1:' + server_port
+        api: 'http://127.0.0.1:' + server_port,
       }
     }, emitter);
 
