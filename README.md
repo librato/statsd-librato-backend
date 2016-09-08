@@ -251,10 +251,20 @@ config in the librato configuration section of the StatsD config file:
 }
 ```
 
-Once your config has been updated, all metrics submitted to Librato will inclue your defined tags.
+Once your config has been updated, all metrics submitted to Librato will include your defined tags.
 If a source name exists, we will automatically submit the source as a tag as well. 
 
-By default, this functionality is disabled and is newly supported by Librato. If you are interested in using this feature, you can send us an email at [support@librato.com](support@librato.com) and request access. 
+We also support tags at the per-stat level should you need more detailed tagging. We provide a naming syntax for your stats so you can submit tags for each stat. That syntax is as follows:
+
+```
+metric.name:value|#tag1:value,tag2:value
+```
+
+Starting with a `|#`, you would pass in a comma-separated list of tags and we will parse out the tags and values. Given the above example, a stat matching
+the above syntax will be submitted as metric to Librato with a name of `metric.name`, a value of `value` and with the tags `tag1:value` and `tag2:value.
+
+
+By default, this functionality is disabled and is newly supported by Librato. If you are interested in using this feature, you send us an email at [support@librato.com](support@librato.com) and request access. 
 
 ## NPM Dependencies
 
