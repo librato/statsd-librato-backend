@@ -254,7 +254,7 @@ config in the librato configuration section of the StatsD config file:
 Once your config has been updated, all metrics submitted to Librato will inclue your defined tags.
 If a source name exists, we will automatically submit the source as a tag as well. 
 
-By default, this functionality is disabled and is newly supported by Librato. If you are interested in using this feature, you send us an email at [support@librato.com](support@librato.com) and request access. 
+By default, this functionality is disabled and is newly supported by Librato. If you are interested in using this feature, you can send us an email at [support@librato.com](support@librato.com) and request access. 
 
 ## NPM Dependencies
 
