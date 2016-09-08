@@ -237,6 +237,25 @@ That configuration will proxy requests via a proxy listening on
 localhost on port 8080. You can also use an https proxy by setting the
 protocol to https in the URI.
 
+## Tags
+
+Our backend plugin offers basic tagging support for your metrics you submit to Librato. You can specify what tags you want to submit to Librato using the *tags*
+config in the librato configuration section of the StatsD config file:
+
+
+```js
+{
+  "librato" : {
+    "tags": { "os" : "ubuntu", "hostname" : "production-web-server-1", ... }
+  }
+}
+```
+
+Once your config has been updated, all metrics submitted to Librato will inclue your defined tags.
+If a source name exists, we will automatically submit the source as a tag as well. 
+
+By default, this functionality is disabled and is newly supported by Librato. If you are interested in using this feature, you can send us an email at [support@librato.com](support@librato.com) and request access. 
+
 ## NPM Dependencies
 
 None
