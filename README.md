@@ -257,11 +257,11 @@ If a source name exists, we will automatically submit the source as a tag as wel
 We also support tags at the per-stat level should you need more detailed tagging. We provide a naming syntax for your stats so you can submit tags for each stat. That syntax is as follows:
 
 ```
-metric.name:value|#tag1:value,tag2:value
+metric.name:value#tag1=value,tag2=value
 ```
 
-Starting with a `|#`, you would pass in a comma-separated list of tags and we will parse out the tags and values. Given the above example, a stat matching
-the above syntax will be submitted as metric to Librato with a name of `metric.name`, a value of `value` and with the tags `tag1:value` and `tag2:value.
+Starting with a `#`, you would pass in a comma-separated list of tags and we will parse out the tags and values. Given the above example, a stat matching
+the above syntax will be submitted as metric to Librato with a name of `metric.name`, a value of `value` and with the tags `tag1=value` and `tag2=value. You are welcome to use any statsd client of your choosing.
 
 
 By default, this functionality is disabled and is newly supported by Librato. If you are interested in using this feature, you send us an email at [support@librato.com](support@librato.com) and request access. 
