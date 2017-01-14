@@ -21,5 +21,8 @@
   "main": "lib/librato.js",
   "scripts": {
     "test": "nodeunit test"
+  },
+  "bin": {
+    "statsd-librato": "./bin/statsd-librato"
   }
 }
