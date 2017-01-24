@@ -228,7 +228,7 @@ By default, this functionality is disabled and is newly supported by Librato. If
 
 None
 
-## Need a version prior to 2.x.x?
+## Need a version prior to 2.x.x that doesn't have tagging support?
 
 Please use this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x).
 
