@@ -37,7 +37,7 @@ Example Full Configuration File:
     token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32"
   }
   , backends: ["statsd-librato-backend"]
-  , port: 8125,
+  , port: 8125
   , keyNameSanitize: false
 }
 ```
