@@ -260,6 +260,21 @@ published by statsd. You can use the API pattern DELETE route to mass
 delete metrics. To delete only counter metrics, add the parameter
 `metric_type=counter`.
 
+## Docker
+
+You may use `bin/statsd-librato` to easily bootstrap the daemon inside
+a container.
+
+Invoking this via `CMD` or `ENTRYPOINT` will create a simple
+configuration and run the statsd daemon with this backend enabled,
+listening on `8125`.
+
+The following environment variables are available to customize:
+
+ - `LIBRATO_EMAIL`
+ - `LIBRATO_TOKEN`
+ - `LIBRATO_SOURCE`
+
 ## Development
 
 - [Librato Backend](https://github.com/librato/statsd-librato-backend)
