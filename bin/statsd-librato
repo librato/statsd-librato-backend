@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+var fs = require('fs'),
+  rootPath = require('path').resolve(__dirname, './../../..');
+
+if (!fs.existsSync(rootPath + '/stats.js')) {
+  console.error('This should run as a dependency inside etsy/statsd');
+  if (process.env.DEBUG) {
+    console.log('rootPath: ' + rootPath);
+    console.log('__dirname: ' + __dirname);
+  }
+  process.exit(1);
+}
+
+var configPath = rootPath + '/config.js';
+
+if (!fs.existsSync(configPath)) {
+  var configFile = '';
+  configFile += '{' + "\n";
+  configFile += "  librato: {\n";
+  configFile += "    email: process.env.LIBRATO_EMAIL || 'default',\n";
+  configFile += "    token: process.env.LIBRATO_TOKEN || 'token',\n";
+  configFile += "    source: process.env.LIBRATRO_SOURCE || 'env'\n";
+  configFile += '  },' + "\n";
+  configFile += "  backends: [\"statsd-librato-backend\"],\n";
+  configFile += "  port: 8125\n";
+  configFile += '}';
+
+  fs.writeFileSync(configPath, configFile, 'utf-8');
+}
+
+require(rootPath + '/bin/statsd');
