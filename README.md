@@ -10,7 +10,7 @@ publishes stats to [Librato](https://metrics.librato.com).
 ## Requirements
 
 * [StatsD][statsd] versions >= 0.6.0.
-* An active [Librato](https://metrics.librato.com/sign_up) account.
+* An active [Librato](https://metrics.librato.com/sign_up) account
 
 ## Installation
 
@@ -196,6 +196,8 @@ protocol to https in the URI.
 
 ## Tags
 
+Starting in version 2.x.x and higher, this functionality is enabled by default. If you are interested in using this feature but your Librato account is not enabled for tags, please send us an email at [support@librato.com](support@librato.com) and request access. Otherwise, see this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x) for the legacy version 0.1.7.
+
 Our backend plugin offers basic tagging support for your metrics you submit to Librato. You can specify what tags you want to submit to Librato using the *tags*
 config in the librato configuration section of the StatsD config file:
 
@@ -222,15 +224,10 @@ the above syntax will be submitted as metric to Librato with a name of `metric.n
 
 Please note that in order to use tags, the statsd config option `keyNameSanitize` must be set to `false` to properly parse tags out of your stat name.
 
-Starting in version 2.x.x and higher, this functionality is enabled by default. If you are interested in using this feature but your Librato account is not enabled for tags, please send us an email at [support@librato.com](support@librato.com) and request access. Otherwise, see this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x) for the legacy version 0.1.7.
 
 ## NPM Dependencies
 
 None
-
-## Need a version prior to 2.x.x that doesn't have tagging support?
-
-Please use this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x).
 
 ## Docker
 
