@@ -222,7 +222,7 @@ the above syntax will be submitted as metric to Librato with a name of `metric.n
 
 Please note that in order to use tags, the statsd config option `keyNameSanitize` must be set to `false` to properly parse tags out of your stat name.
 
-By default, this functionality is disabled and is newly supported by Librato. If you are interested in using this feature, you send us an email at [support@librato.com](support@librato.com) and request access. 
+Starting in version 2.x.x and higher, this functionality is enabled by default. If you are interested in using this feature but your Librato account is not enabled for tags, please send us an email at [support@librato.com](support@librato.com) and request access. Otherwise, see this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x) for the legacy version 0.1.7.
 
 ## NPM Dependencies
 
