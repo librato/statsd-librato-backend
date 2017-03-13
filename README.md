@@ -124,6 +124,8 @@ options under the top-level `librato` hash:
 
 * `globalPrefix`: A string to prepend to all measurement names sent to Librato. If set, a dot
                   will automatically be added as separator between prefix and measurement name.
+                  
+* `writeToLegacy`: Boolean of whether to send metrics with the legacy `source` dimension or with tags. Defaults to `false`.
 
 ## Reducing published data for inactive stats
 
@@ -197,6 +199,8 @@ protocol to https in the URI.
 ## Tags
 
 Starting in version 2.x.x and higher, this functionality is enabled by default. If you are interested in using this feature but your Librato account is not enabled for tags, please send us an email at [support@librato.com](support@librato.com) and request access. Otherwise, see this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x) for the legacy version 0.1.7.
+
+If your account does not support tags, set `writeToLegacy = true` in the librato configuration hash.
 
 Our backend plugin offers basic tagging support for your metrics you submit to Librato. You can specify what tags you want to submit to Librato using the *tags*
 config in the librato configuration section of the StatsD config file:
