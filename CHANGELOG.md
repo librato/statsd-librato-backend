@@ -1,3 +1,8 @@
+## [2.0.5] - 2017-03-13
+
+### Fixed
+- [#70](https://github.com/librato/statsd-librato-backend/pull/70) Fixed an issue where legacy payloads were being sent to Librato incorrectly.
+
 ## [2.0.4] - 2017-03-06
 
 ### Fixed
