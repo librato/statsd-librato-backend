@@ -18,8 +18,8 @@ module.exports = {
           data += chunk;
         });
         req.on('end', function() {
+          var body = JSON.parse(data);
           if (validRequest) {
-            var body = JSON.parse(data);
             res.writeHead(200, {});
             res.end('');
             callback(req, res, body);
@@ -118,7 +118,7 @@ module.exports = {
   },
 
   testIgnoreBrokenMetrics: function(test) {
-    test.expect(1);
+    test.expect(5);
     var metrics = {
       gauges: {
         cool_gauge: 123,
@@ -141,9 +141,30 @@ module.exports = {
 
     // Simulate failure...
     this.server.once('request', this.api_mock(false, errors, function(req, res, body) {
+      var gauges = {};
+      for (var k in body.measurements) {
+        gauges[body.measurements[k].name] = body.measurements[k].value;
+      }
+
+      test.ok(gauges.cool_gauge);
+      test.ok(gauges.bad_counter);
       test.equal(res.statusCode, 400);
-      test.done();
+
+      setTimeout(function() {
+        this.server.once('request', this.api_mock(true, {}, function(req, res, body) {
+          var gauges = {};
+          for (var k in body.measurements) {
+            gauges[body.measurements[k].name] = body.measurements[k].value;
+          }
+          test.ok(gauges.cool_gauge);
+          test.strictEqual(gauges.bad_counter, undefined);
+          test.done();
+        }));
+        this.emitter.emit('flush', 123, metrics);
+      }.bind(this));
     }.bind(this)));
+
     this.emitter.emit('flush', 123, metrics);
+
   }
 };
