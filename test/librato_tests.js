@@ -72,7 +72,7 @@ module.exports = {
     this.emitter.emit('flush', 123, metrics);
   },
 
-  testValidMeasurementTags: function(test) {
+  testValidMeasurementSingleTag: function(test) {
     test.expect(4);
     var metrics = {
       gauges: {
@@ -90,6 +90,31 @@ module.exports = {
     }));
 
     this.emitter.emit('flush', 123, metrics);
+  },
+
+  testValidMeasurementMultipleTags: function(test) {
+    test.expect(4);
+    var metrics = {
+      gauges: {
+        "my_gauge#foo=bar,biz=baz": 1
+      }
+    };
+
+    this.server.once('request', this.api_mock(true, {}, function(req, res, body) {
+      var measurement = body.measurements[0];
+      test.ok(measurement);
+      test.equal(measurement.name, "my_gauge");
+      test.equal(measurement.value, 1);
+      test.deepEqual(measurement.tags, {foo: "bar", biz: "baz"});
+      test.done();
+    }));
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+  testWriteToLegacy: function(test) {
+    test.expect(0);
+    test.done();
   },
 
   testIgnoreBrokenMetrics: function(test) {
