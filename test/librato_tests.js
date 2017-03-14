@@ -112,11 +112,6 @@ module.exports = {
     this.emitter.emit('flush', 123, metrics);
   },
 
-  testWriteToLegacy: function(test) {
-    test.expect(0);
-    test.done();
-  },
-
   testIgnoreBrokenMetrics: function(test) {
     test.expect(5);
     var metrics = {
