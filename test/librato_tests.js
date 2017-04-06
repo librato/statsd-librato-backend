@@ -156,7 +156,7 @@ module.exports = {
           test.done();
         }));
         this.emitter.emit('flush', 123, metrics);
-      }.bind(this));
+      }.bind(this), 500);
     }.bind(this)));
 
     this.emitter.emit('flush', 123, metrics);
