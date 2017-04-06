@@ -1,3 +1,9 @@
+## [2.0.7] - 2017-04-06
+
+### Changed
+
+- Updated some documentation and re-enabled a TravisCI with a build matrix
+
 ## [2.0.6] - 2017-04-06
 
 ### Fixed
