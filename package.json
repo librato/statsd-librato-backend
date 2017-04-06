@@ -3,11 +3,18 @@
   "name": "statsd-librato-backend",
   "description": "A StatsD backend for Librato Metrics",
   "version": "2.0.6",
+  "license": "MIT",
   "homepage": "https://github.com/librato/statsd-librato-backend",
   "repository": {
     "type": "git",
     "url": "git://github.com/librato/statsd-librato-backend.git"
   },
+  "contributors": [
+    {
+      "name": "Bryan Mikaelian",
+      "email": "bryan@librato.com"
+    }
+  ],
   "keywords": [
     "librato",
     "metrics",
