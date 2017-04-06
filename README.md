@@ -1,8 +1,9 @@
 # StatsD Librato backend
 
-[![NPM version](https://badge.fury.io/js/statsd-librato-backend.svg)](http://badge.fury.io/js/statsd-librato-backend)
-[![Build Status](https://travis-ci.org/librato/statsd-librato-backend.svg?branch=master)](https://travis-ci.org/librato/statsd-librato-backend)
-
+[![npm](https://img.shields.io/npm/v/statsd-librato-backend.svg)]()
+[![Travis](https://img.shields.io/travis/librato/statsd-librato-backend.svg)]()
+[![npm](https://img.shields.io/npm/dm/statsd-librato-backend.svg)]()
+[![npm](https://img.shields.io/npm/l/statsd-librato-backend.svg)]()
 ---
 
 **NOTE:** Starting with version 2.0.0 statsd-librato-backend requires a Librato account that [supports tagged metrics](https://www.librato.com/docs/kb/faq/account_questions/tags_or_sources/). 
