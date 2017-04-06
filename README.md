@@ -1,7 +1,7 @@
 # StatsD Librato backend
 
 [![NPM version](https://badge.fury.io/js/statsd-librato-backend.svg)](http://badge.fury.io/js/statsd-librato-backend)
-[![CircleCI](https://circleci.com/gh/librato/statsd-librato-backend.svg?style=shield)](https://circleci.com/gh/librato/statsd-librato-backend)
+[![Build Status](https://travis-ci.org/librato/statsd-librato-backend.svg?branch=master)](https://travis-ci.org/librato/statsd-librato-backend)
 
 ---
 
