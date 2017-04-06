@@ -66,7 +66,7 @@ module.exports = {
       test.equal(measurement.value, 1);
       test.deepEqual(measurement.tags, {});
       test.done();
-      
+
     }));
 
     this.emitter.emit('flush', 123, metrics);
@@ -161,5 +161,31 @@ module.exports = {
 
     this.emitter.emit('flush', 123, metrics);
 
+  },
+
+  testTimers: function(test) {
+    test.expect(7);
+    var metrics = {
+      timers: {
+        "my_timer#tag=foo": [41, 73.5]
+      },
+      timer_data: {
+        "my_timer#tag=foo": null
+      }
+    };
+
+    this.server.once('request', this.api_mock(true, {}, function(req, res, body) {
+      var measurement = body.measurements[0];
+      test.ok(measurement);
+      test.equal(measurement.name, "my_timer");
+      test.equal(measurement.value, undefined);
+      test.equal(measurement.min, 41);
+      test.equal(measurement.max, 73.5);
+      test.equal(measurement.sum, 114.5);
+      test.deepEqual(measurement.tags, {tag: "foo"});
+      test.done();
+    }));
+
+    this.emitter.emit('flush', 123, metrics);
   }
 };
