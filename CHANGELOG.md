@@ -1,3 +1,8 @@
+## [2.0.6] - 2017-04-06
+
+### Fixed
+- [#73](https://github.com/librato/statsd-librato-backend/pull/73) Fixed an issue where `sum` was not properly calculated for a timer.
+
 ## [2.0.5] - 2017-03-13
 
 ### Fixed
