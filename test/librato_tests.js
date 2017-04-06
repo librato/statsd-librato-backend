@@ -164,7 +164,7 @@ module.exports = {
   },
 
   testTimers: function(test) {
-    test.expect(6);
+    test.expect(7);
     var metrics = {
       timers: {
         "my_timer#tag=foo": [41, 73.5]
@@ -181,6 +181,7 @@ module.exports = {
       test.equal(measurement.value, undefined);
       test.equal(measurement.min, 41);
       test.equal(measurement.max, 73.5);
+      test.equal(measurement.sum, 114.5);
       test.deepEqual(measurement.tags, {tag: "foo"});
       test.done();
     }));
