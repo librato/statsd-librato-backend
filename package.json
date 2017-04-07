@@ -29,12 +29,18 @@
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.7.1",
-    "nodeunit": "^0.11.0"
+    "nodeunit": "^0.11.0",
+    "pre-commit": "^1.2.2"
   },
   "main": "lib/librato.js",
   "scripts": {
-    "test": "yarn run eslint ./lib/librato.js && yarn run nodeunit test"
+    "test": "yarn run nodeunit test",
+    "lint": "yarn run eslint lib test"
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "bin": {
     "statsd-librato": "./bin/statsd-librato"
   }
