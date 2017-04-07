@@ -234,11 +234,6 @@ the above syntax will be submitted as metric to Librato with a name of `metric.n
 
 Please note that in order to use tags, the statsd config option `keyNameSanitize` must be set to `false` to properly parse tags out of your stat name.
 
-
-## NPM Dependencies
-
-None
-
 ## Docker
 
 You may use `bin/statsd-librato` to easily bootstrap the daemon inside
@@ -261,9 +256,10 @@ The following environment variables are available to customize:
 If you want to contribute:
 
 1. Clone your fork
-2. Hack away
-3. If you are adding new functionality, document it in the README
-4. Push the branch up to GitHub
-5. Send a pull request
+2. `yarn install`
+3. Hack away
+4. If you are adding new functionality, document it in the README
+5. Push the branch up to GitHub
+6. Send a pull request
 
 [statsd]: https://github.com/etsy/statsd
