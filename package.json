@@ -34,8 +34,8 @@
   },
   "main": "lib/librato.js",
   "scripts": {
-    "test": "yarn run nodeunit test",
-    "lint": "yarn run eslint lib test"
+    "test": "nodeunit test",
+    "lint": "eslint lib test"
   },
   "pre-commit": [
     "lint",
