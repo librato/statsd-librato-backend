@@ -7,7 +7,8 @@
       "quotes": ["off", "double"],
       "no-var": "off",
       "max-len": "warn",
-      "guard-for-in": "warn"
+      "guard-for-in": "warn",
+      "eqeqeq": "warn"
     },
     "extends": "google"
 }
