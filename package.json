@@ -27,11 +27,13 @@
     "extend": "^3.0.0"
   },
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1",
     "nodeunit": "^0.11.0"
   },
   "main": "lib/librato.js",
   "scripts": {
-    "test": "nodeunit test"
+    "test": "yarn run eslint ./lib/librato.js && yarn run nodeunit test"
   },
   "bin": {
     "statsd-librato": "./bin/statsd-librato"
