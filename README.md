@@ -1,6 +1,16 @@
 # StatsD Librato backend
 
-[![NPM version](https://badge.fury.io/js/statsd-librato-backend.svg)](http://badge.fury.io/js/statsd-librato-backend)
+[![npm](https://img.shields.io/npm/v/statsd-librato-backend.svg)](https://www.npmjs.com/package/statsd-librato-backend)
+[![Travis](https://img.shields.io/travis/librato/statsd-librato-backend/master.svg)](https://travis-ci.org/librato/statsd-librato-backend)
+[![npm](https://img.shields.io/npm/dm/statsd-librato-backend.svg)](https://www.npmjs.com/package/statsd-librato-backend)
+[![npm](https://img.shields.io/npm/l/statsd-librato-backend.svg)](https://github.com/librato/statsd-librato-backend/blob/master/LICENSE)
+---
+
+**NOTE:** Starting with version 2.0.0 statsd-librato-backend requires a Librato account that [supports tagged metrics](https://www.librato.com/docs/kb/faq/account_questions/tags_or_sources/). 
+
+If your Librato account doesn't yet support tagged metrics or you are using [a heroku addon](https://devcenter.heroku.com/articles/librato), please use the [0.1.x version](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x).
+
+---
 
 ## Overview
 
@@ -66,75 +76,54 @@ pushed to your Librato account.
 The Librato backend also supports the following optional configuration
 options under the top-level `librato` hash:
 
-* `snapTime`: Measurement timestamps are snapped to this interval
-              (specified in seconds). This makes it easier to align
-              measurements sent from multiple statsd instances on a
-              single graph. Default is to use the flush interval time.
+`snapTime`
+* Measurement timestamps are snapped to this interval (specified in seconds). This makes it easier to align measurements sent from multiple statsd instances on a single graph. Default is to use the flush interval time.
 
-* `countersAsGauges`: A boolean that controls whether StatsD counters
-                      are sent to Librato as gauge values (default) or
-                      as counters. When set to true (default), the
-                      backend will send the aggregate value of all
-                      increment/decrement operations during a flush
-                      period as a gauge measurement to Librato.
+`countersAsGauges`
+* A boolean that controls whether StatsD counters are sent to Librato as gauge values (default) or as counters. When set to true (default), the backend will send the aggregate value of all increment/decrement operations during a flush period as a gauge measurement to Librato.
 
-                      When set to false, the backend will track the
-                      running value of all counters and submit the
-                      current absolute value to Librato as a
-                      counter. This will require some additional
-                      memory overhead and processing time to track the
-                      running value of all counters.
+    When set to false, the backend will track the running value of all counters and submit the current absolute value to Librato as acounter. This will require some additional memory overhead and processing time to track the running value of all counters.
 
-* `skipInternalMetrics`: Boolean of whether to skip publishing of
-                         internal statsd metrics. This includes all
-                         metrics beginning with 'statsd.' and the
-                         metric numStats. Defaults to true, implying
-                         they are not sent.
+`skipInternalMetrics`
+* Boolean of whether to skip publishing of internal statsd metrics. This includes all metrics beginning with 'statsd.' and the metric numStats. Defaults to true, implying they are not sent.
 
-* `retryDelaySecs`: How long to wait before retrying a failed
-                    request, in seconds.
+`retryDelaySecs`
+* How long to wait before retrying a failed request, in seconds.
 
-* `postTimeoutSecs`: Max time for POST requests to Librato, in
-                     seconds.
+`postTimeoutSecs`
+* Max time for POST requests to Librato, in seconds.
 
-* `includeMetrics`: An array of JavaScript regular expressions. Only metrics
-                    that match any of the regular expressions will be sent to Librato.
-                    Defaults to an empty array.
+`includeMetrics`
+* An array of JavaScript regular expressions. Only metrics that match any of the regular expressions will be sent to Librato. Defaults to an empty array.
 
-```js
-{
-   includeMetrics: [/^my\.included\.metrics/, /^my.specifically.included.metric$/]
-}
-```
+    ```js
+    {
+       includeMetrics: [/^my\.included\.metrics/, /^my.specifically.included.metric$/]
+    }
+    ```
 
-* `excludeMetrics`: An array of JavaScript regular expressions. Metrics which match
-                    any of the regular expressions will NOT be sent to Librato. If includedMetrics
-                    is specified, then patterns will be matched against the resulting
-                    list of included metrics.
-                    Defaults to an empty array.
+`excludeMetrics`
+* An array of JavaScript regular expressions. Metrics which match any of the regular expressions will NOT be sent to Librato. If includedMetrics is specified, then patterns will be matched against the resulting list of included metrics. Defaults to an empty array.
 
-              Metrics which are sent to StatsDThis will exclude metrics sent to StatsD so that metrics which
-              match the specified regex value
+    ```js
+    {
+       excludeMetrics: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]
+    }
+    ```
 
-```js
-{
-   excludeMetrics: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]
-}
-```
+`globalPrefix`
+* A string to prepend to all measurement names sent to Librato. If set, a dot will automatically be added as separator between prefix and measurement name.
 
-* `globalPrefix`: A string to prepend to all measurement names sent to Librato. If set, a dot
-                  will automatically be added as separator between prefix and measurement name.
-                  
-* `writeToLegacy`: Boolean of whether to send metrics with the legacy `source` dimension or with tags. 
-                  Defaults to `false`. Intended for users with hybrid accounts that support both tags 
-                  and sources to help with the migration to tags. 
-```js
-                    librato: {
-                      email:  "myemail@example.com",
-                      token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
-                      source: "unique-per-statsd-instance"
-                    }
-```
+`writeToLegacy`
+* Boolean of whether to send metrics with the legacy `source` dimension or with tags. Defaults to `false`. Intended for users with hybrid accounts that support both tags and sources to help with the migration to tags. Set the source in the StatsD config file:
+
+    ```js
+    librato: {
+      email:  "myemail@example.com",
+      token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
+      source: "unique-per-statsd-instance"
+    }
+    ```
 
 ## Reducing published data for inactive stats
 
@@ -207,7 +196,7 @@ protocol to https in the URI.
 
 ## Tags
 
-Starting in version 2.x.x and higher, this functionality is enabled by default. If you are interested in using this feature but your Librato account is not enabled for tags, please send us an email at [support@librato.com](support@librato.com) and request access. If your account does not support tags, please use see this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x) for the legacy version 0.1.7. If your account supports both tags and sources, set `writeToLegacy = true` in the librato configuration hash.
+Starting in version 2.x.x and higher, this functionality is enabled by default. If you are interested in using this feature but your Librato account is not enabled for tags, please send us an email at [support@librato.com](support@librato.com) and request access. Otherwise, see this [branch](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x) for the legacy version 0.1.7.
 
 Our backend plugin offers basic tagging support for your metrics you submit to Librato. You can specify what tags you want to submit to Librato using the *tags*
 config in the librato configuration section of the StatsD config file:
@@ -235,11 +224,6 @@ the above syntax will be submitted as metric to Librato with a name of `metric.n
 
 Please note that in order to use tags, the statsd config option `keyNameSanitize` must be set to `false` to properly parse tags out of your stat name.
 
-
-## NPM Dependencies
-
-None
-
 ## Docker
 
 You may use `bin/statsd-librato` to easily bootstrap the daemon inside
@@ -262,9 +246,10 @@ The following environment variables are available to customize:
 If you want to contribute:
 
 1. Clone your fork
-2. Hack away
-3. If you are adding new functionality, document it in the README
-4. Push the branch up to GitHub
-5. Send a pull request
+2. `yarn install`
+3. Hack away
+4. If you are adding new functionality, document it in the README
+5. Push the branch up to GitHub
+6. Send a pull request
 
 [statsd]: https://github.com/etsy/statsd
