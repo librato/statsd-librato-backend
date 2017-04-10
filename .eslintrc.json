@@ -1,0 +1,14 @@
+{
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "rules": {
+      "one-var-declaration-per-line": "error",
+      "quotes": ["error", "single"],
+      "no-var": "off",
+      "max-len": "warn",
+      "guard-for-in": "warn",
+      "eqeqeq": "warn"
+    },
+    "extends": "google"
+}
