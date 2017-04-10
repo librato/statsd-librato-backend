@@ -4,7 +4,7 @@
     },
     "rules": {
       "one-var-declaration-per-line": "error",
-      "quotes": ["off", "double"],
+      "quotes": ["error", "single"],
       "no-var": "off",
       "max-len": "warn",
       "guard-for-in": "warn",
