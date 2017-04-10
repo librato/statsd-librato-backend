@@ -1,7 +1,7 @@
 # StatsD Librato backend
 
 [![npm](https://img.shields.io/npm/v/statsd-librato-backend.svg)](https://www.npmjs.com/package/statsd-librato-backend)
-[![Travis](https://img.shields.io/travis/librato/statsd-librato-backend.svg)](https://travis-ci.org/librato/statsd-librato-backend)
+[![Travis](https://img.shields.io/travis/librato/statsd-librato-backend/master.svg)](https://travis-ci.org/librato/statsd-librato-backend)
 [![npm](https://img.shields.io/npm/dm/statsd-librato-backend.svg)](https://www.npmjs.com/package/statsd-librato-backend)
 [![npm](https://img.shields.io/npm/l/statsd-librato-backend.svg)](https://github.com/librato/statsd-librato-backend/blob/master/LICENSE)
 ---
