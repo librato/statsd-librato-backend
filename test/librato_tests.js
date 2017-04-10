@@ -1,9 +1,11 @@
+'use strict';
+
 const http = require('http');
 const events = require('events');
 const serverPort = 36001;
 const librato = require('../lib/librato.js');
 
-let emitter;
+var emitter;
 
 module.exports = {
   setUp: function(callback) {
@@ -33,8 +35,8 @@ module.exports = {
         });
       };
     };
-    // Librato Backend
-    librato.init(null, {
+
+    this.config = {
       debug: false,
       librato: {
         email: '-@-',
@@ -43,13 +45,17 @@ module.exports = {
         writeToLegacy: false,
         batchSize: 5,
       },
-    }, emitter);
+    };
+
+    librato.init(null, this.config, emitter);
   },
+
   tearDown: function(callback) {
     this.server.close(function() {
       callback();
     });
   },
+
   testValidMeasurementNoTags: function(test) {
     let metrics = {gauges: {my_gauge: 1}};
 
@@ -77,6 +83,7 @@ module.exports = {
     }));
     emitter.emit('flush', 123, metrics);
   },
+
   testValidMeasurementMultipleTags: function(test) {
     test.expect(4);
     let metrics = {gauges: {'my_gauge#foo=bar,biz=baz': 1}};
@@ -93,6 +100,7 @@ module.exports = {
     }));
     emitter.emit('flush', 123, metrics);
   },
+
   testIgnoreBrokenMetrics: function(test) {
     test.expect(5);
     let metrics = {
@@ -126,6 +134,7 @@ module.exports = {
     }.bind(this)));
     emitter.emit('flush', 123, metrics);
   },
+
   testTimers: function(test) {
     test.expect(7);
     let metrics = {
