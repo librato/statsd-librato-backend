@@ -1,3 +1,19 @@
+## [2.0.7] - 2017-04-06
+
+### Changed
+
+- Updated some documentation and re-enabled a TravisCI with a build matrix
+
+## [2.0.6] - 2017-04-06
+
+### Fixed
+- [#73](https://github.com/librato/statsd-librato-backend/pull/73) Fixed an issue where `sum` was not properly calculated for a timer.
+
+## [2.0.5] - 2017-03-13
+
+### Fixed
+- [#70](https://github.com/librato/statsd-librato-backend/pull/70) Fixed an issue where legacy payloads were being sent to Librato incorrectly.
+
 ## [2.0.4] - 2017-03-06
 
 ### Fixed

@@ -2,12 +2,19 @@
   "author": "Mike Heffner <mike@librato.com>",
   "name": "statsd-librato-backend",
   "description": "A StatsD backend for Librato Metrics",
-  "version": "2.0.4",
+  "version": "2.0.7",
+  "license": "MIT",
   "homepage": "https://github.com/librato/statsd-librato-backend",
   "repository": {
     "type": "git",
     "url": "git://github.com/librato/statsd-librato-backend.git"
   },
+  "contributors": [
+    {
+      "name": "Bryan Mikaelian",
+      "email": "bryan@librato.com"
+    }
+  ],
   "keywords": [
     "librato",
     "metrics",
@@ -19,11 +26,23 @@
   "dependencies": {
     "extend": "^3.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.1.3",
+    "eslint-config-google": "^0.7.1",
+    "eslint-plugin-import": "^2.2.0",
+    "nodeunit": "^0.11.0",
+    "pre-commit": "^1.2.2"
+  },
   "main": "lib/librato.js",
   "scripts": {
-    "test": "nodeunit test"
+    "test": "nodeunit test",
+    "lint": "eslint lib test"
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "bin": {
     "statsd-librato": "./bin/statsd-librato"
   }
