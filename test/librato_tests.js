@@ -1,3 +1,5 @@
+'use strict';
+
 const http = require('http');
 const events = require('events');
 const serverPort = 36001;
