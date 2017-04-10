@@ -125,7 +125,16 @@ options under the top-level `librato` hash:
 * `globalPrefix`: A string to prepend to all measurement names sent to Librato. If set, a dot
                   will automatically be added as separator between prefix and measurement name.
                   
-* `writeToLegacy`: Boolean of whether to send metrics with the legacy `source` dimension or with tags. Defaults to `false`.
+* `writeToLegacy`: Boolean of whether to send metrics with the legacy `source` dimension or with tags. 
+                  Defaults to `false`. Intended for users with hybrid accounts that support both tags 
+                  and sources to help with the migration to tags. 
+```js
+                    librato: {
+                      email:  "myemail@example.com",
+                      token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
+                      source: "unique-per-statsd-instance"
+                    }
+```
 
 ## Reducing published data for inactive stats
 
