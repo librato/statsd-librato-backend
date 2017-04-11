@@ -5,26 +5,24 @@ const serverPort = 36001;
 const librato = require('../lib/librato.js');
 const nock = require('nock');
 
-var emitter;
+const config = {
+  debug: false,
+  librato: {
+    email: '-@-',
+    token: '-',
+    api: 'http://127.0.0.1:' + serverPort,
+    writeToLegacy: false,
+  },
+};
 
 module.exports = {
   setUp: function(callback) {
-    emitter = new events.EventEmitter();
+    this.emitter = new events.EventEmitter();
 
     this.apiServer = nock('http://127.0.0.1:36001')
                          .defaultReplyHeaders({'Content-Type': 'application/json'});
 
-    this.config = {
-      debug: false,
-      librato: {
-        email: '-@-',
-        token: '-',
-        api: 'http://127.0.0.1:' + serverPort,
-        writeToLegacy: false,
-      },
-    };
-
-    librato.init(null, this.config, emitter);
+    librato.init(null, config, this.emitter);
     callback();
   },
 
@@ -36,7 +34,7 @@ module.exports = {
     test.expect(4);
     let metrics = {gauges: {my_gauge: 1}};
     this.apiServer.post('/v1/measurements')
-             .reply(200, function(uri, requestBody) {
+             .reply(200, (uri, requestBody) => {
                 let measurement = requestBody.measurements[0];
                 test.ok(requestBody);
                 test.equal(measurement.name, 'my_gauge');
@@ -45,14 +43,14 @@ module.exports = {
                 test.done();
              });
 
-    emitter.emit('flush', 123, metrics);
+    this.emitter.emit('flush', 123, metrics);
   },
 
   testValidMeasurementSingleTag: function(test) {
     test.expect(4);
     let metrics = {gauges: {'my_gauge#foo=bar': 1}};
     this.apiServer.post('/v1/measurements')
-             .reply(200, function(uri, requestBody) {
+             .reply(200, (uri, requestBody) => {
                 let measurement = requestBody.measurements[0];
                 test.ok(requestBody);
                 test.equal(measurement.name, 'my_gauge');
@@ -61,14 +59,14 @@ module.exports = {
                 test.done();
              });
 
-    emitter.emit('flush', 123, metrics);
+    this.emitter.emit('flush', 123, metrics);
   },
 
   testValidMeasurementMultipleTags: function(test) {
     test.expect(4);
     let metrics = {gauges: {'my_gauge#foo=bar,biz=baz': 1}};
     this.apiServer.post('/v1/measurements')
-             .reply(200, function(uri, requestBody) {
+             .reply(200, (uri, requestBody) => {
                 let measurement = requestBody.measurements[0];
                 test.ok(requestBody);
                 test.equal(measurement.name, 'my_gauge');
@@ -80,7 +78,7 @@ module.exports = {
                 test.done();
              });
 
-    emitter.emit('flush', 123, metrics);
+    this.emitter.emit('flush', 123, metrics);
   },
 
   testTimers: function(test) {
@@ -95,7 +93,7 @@ module.exports = {
       timer_data: {'my_timer#tag=foo': null},
     };
     this.apiServer.post('/v1/measurements')
-             .reply(200, function(uri, requestBody) {
+             .reply(200, (uri, requestBody) => {
                 let measurement = requestBody.measurements[0];
                 test.ok(measurement);
                 test.equal(measurement.name, 'my_timer');
@@ -107,11 +105,11 @@ module.exports = {
                 test.done();
              });
 
-    emitter.emit('flush', 123, metrics);
+    this.emitter.emit('flush', 123, metrics);
   },
 
   testIgnoreBrokenMetrics: function(test) {
-    test.expect(0);
+    test.expect(3);
     let metrics = {
       gauges: {
         cool_gauge: 123,
@@ -121,13 +119,24 @@ module.exports = {
     let errors = {errors: {params: {type: ['\'bad_counter\'' + ' is a counter, but was' + ' submitted as different type']}}};
 
     this.apiServer.post('/v1/measurements')
-                  .replyWithError(errors)
-                  .post('/v1/measurements')
-                  .reply(200, function(uri, requestBody) {
-                    test.done();
-                  });
+                  .reply(400, JSON.stringify(errors));
 
-    emitter.emit('flush', 123, metrics);
+    this.emitter.emit('flush', 123, metrics);
+
+    // Similuate another flush...
+    setTimeout(() => {
+      this.apiServer.post('/v1/measurements')
+               .reply(200, (uri, requestBody) => {
+                 let measurements = requestBody.measurements;
+                 let gaugeNames = measurements.map((gauge) => gauge.name);
+                 test.equal(requestBody.measurements.length, 1);
+                 test.ok(gaugeNames.includes('cool_gauge'));
+                 test.ok(!gaugeNames.includes('bad_counter'));
+                 test.done();
+               });
+
+      this.emitter.emit('flush', 123, metrics);
+    }, 500);
   },
 
   testMaxBatchSize: function(test) {
@@ -139,12 +148,12 @@ module.exports = {
     }
     var metrics = {gauges: gauges};
     this.apiServer.post('/v1/measurements')
-                  .reply(200, function(uri, requestBody) {
+                  .reply(200, (uri, requestBody) => {
                     test.ok(requestBody.measurements);
                     test.equal(requestBody.measurements.length, 500);
                     test.done();
                   });
 
-    emitter.emit('flush', 123, metrics);
+    this.emitter.emit('flush', 123, metrics);
   },
 };
