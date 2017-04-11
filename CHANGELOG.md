@@ -1,5 +1,8 @@
 ## [2.0.8] - 2017-04-10
 
+### Added
+- [#78](https://github.com/librato/statsd-librato-backend/pull/78) Added a linter
+
 ### Changed
 
 - [#69](https://github.com/librato/statsd-librato-backend/pull/69) Updated some documentation
