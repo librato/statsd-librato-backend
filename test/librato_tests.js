@@ -21,7 +21,6 @@ module.exports = {
         token: '-',
         api: 'http://127.0.0.1:' + serverPort,
         writeToLegacy: false,
-        batchSize: 5,
       },
     };
 
@@ -132,14 +131,20 @@ module.exports = {
   },
 
   testMaxBatchSize: function(test) {
-    test.expect(0);
+    test.expect(2);
     var gauges = {};
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 500; i++) {
       var key = 'gauge' + i;
       gauges[key] = 1;
     }
     var metrics = {gauges: gauges};
+    this.apiServer.post('/v1/measurements')
+                  .reply(200, function(uri, requestBody) {
+                    test.ok(requestBody.measurements);
+                    test.equal(requestBody.measurements.length, 500);
+                    test.done();
+                  });
 
-    test.done();
+    emitter.emit('flush', 123, metrics);
   },
 };
