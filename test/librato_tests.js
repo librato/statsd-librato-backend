@@ -130,8 +130,8 @@ module.exports = {
                  let measurements = requestBody.measurements;
                  let gaugeNames = measurements.map((gauge) => gauge.name);
                  test.equal(requestBody.measurements.length, 1);
-                 test.ok(gaugeNames.includes('cool_gauge'));
-                 test.ok(!gaugeNames.includes('bad_counter'));
+                 test.equal(gaugeNames.indexOf('cool_gauge'), 0);
+                 test.equal(gaugeNames.indexOf('bad_counter'), -1);
                  test.done();
                });
 
