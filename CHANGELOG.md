@@ -1,3 +1,8 @@
+## [2.0.9] - 2017-04-11
+
+### Fixed
+- [#79](https://github.com/librato/statsd-librato-backend/pull/79) Fixed an issue where `maxBatchSize` wasn't respected for tagged based measurements.
+
 ## [2.0.8] - 2017-04-10
 
 ### Added
