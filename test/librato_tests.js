@@ -38,6 +38,7 @@ module.exports = {
         token: '-',
         api: 'http://127.0.0.1:' + serverPort,
         writeToLegacy: false,
+        batchSize: 5,
       },
     }, this.emitter);
   },
@@ -144,5 +145,21 @@ module.exports = {
       test.done();
     }));
     this.emitter.emit('flush', 123, metrics);
+  },
+
+  testMaxBatchSize: function(test) {
+    test.expect(0);
+    var gauges = {};
+    for (var i = 0; i < 5; i++) {
+      var key = 'gauge' + i;
+      gauges[key] = 1;
+    }
+    var metrics = {gauges: gauges};
+
+    this.server.once('request', this.api_mock(true, {}, function(req, res, body) {
+    }));
+
+    this.emitter.emit('flush', 123, metrics);
+    test.done();
   },
 };
