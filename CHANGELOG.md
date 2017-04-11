@@ -1,3 +1,9 @@
+## [2.0.8] - 2017-04-10
+
+### Changed
+
+- [#69](https://github.com/librato/statsd-librato-backend/pull/69) Updated some documentation
+
 ## [2.0.7] - 2017-04-06
 
 ### Changed
