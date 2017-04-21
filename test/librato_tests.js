@@ -108,6 +108,40 @@ module.exports = {
     this.emitter.emit('flush', 123, metrics);
   },
 
+  testTimersPercentiles: function(test) {
+    test.expect(14);
+    let metrics = {
+      timers: {
+        'my_timer#tag=foo': [10],
+      },
+      timer_data: {'my_timer#tag=foo': null},
+      pctThreshold: {99: 99},
+    };
+    this.apiServer.post('/v1/measurements')
+             .reply(200, (uri, requestBody) => {
+                let hundredth = requestBody.measurements[0];
+                test.ok(hundredth);
+                test.equal(hundredth.name, 'my_timer');
+                test.equal(hundredth.value, undefined);
+                test.equal(hundredth.min, 10);
+                test.equal(hundredth.max, 10);
+                test.equal(hundredth.sum, 10);
+                test.deepEqual(hundredth.tags, {tag: 'foo'});
+
+                let measurement = requestBody.measurements[1];
+                test.ok(measurement);
+                test.equal(measurement.name, 'my_timer.99');
+                test.equal(measurement.value, undefined);
+                test.equal(measurement.min, 10);
+                test.equal(measurement.max, 10);
+                test.equal(measurement.sum, 10);
+                test.deepEqual(measurement.tags, {tag: 'foo'});
+                test.done();
+             });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
   testIgnoreBrokenMetrics: function(test) {
     test.expect(3);
     let metrics = {
