@@ -62,6 +62,22 @@ module.exports = {
     this.emitter.emit('flush', 123, metrics);
   },
 
+  testValidMeasurementSingleTagFromHistogram: function(test) {
+    test.expect(4);
+    let metrics = {gauges: {'my_gauge#foo=bar.bin_50': 1}};
+    this.apiServer.post('/v1/measurements')
+             .reply(200, (uri, requestBody) => {
+                let measurement = requestBody.measurements[0];
+                test.ok(requestBody);
+                test.equal(measurement.name, 'my_gauge.bin_50');
+                test.equal(measurement.value, 1);
+                test.deepEqual(measurement.tags, {foo: 'bar'});
+                test.done();
+             });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
   testValidMeasurementMultipleTags: function(test) {
     test.expect(4);
     let metrics = {gauges: {'my_gauge#foo=bar,biz=baz': 1}};
