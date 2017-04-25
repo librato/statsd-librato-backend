@@ -1,3 +1,9 @@
+## [2.0.10] - 2017-04-25
+
+### Changed
+
+- Documentation and test case updates
+
 ## [2.0.9] - 2017-04-11
 
 ### Fixed
