@@ -115,7 +115,7 @@ options under the top-level `librato` hash:
 * A string to prepend to all measurement names sent to Librato. If set, a dot will automatically be added as separator between prefix and measurement name.
 
 `writeToLegacy`
-* Boolean of whether to send metrics with the legacy `source` dimension or with tags. Defaults to `false`. Intended for users with hybrid accounts that support both tags and sources to help with the migration to tags. Set the source in the StatsD config file:
+* Boolean of whether to also send metrics with the legacy `source` dimension. Defaults to `false`. Intended for users with hybrid accounts that support both tags and sources to help with the migration to tags. Set the source in the StatsD config file:
 
     ```js
     librato: {
