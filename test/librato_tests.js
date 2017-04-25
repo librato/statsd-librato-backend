@@ -15,7 +15,7 @@ const config = {
   },
 };
 
-module.exports = {
+module.exports.tags = {
   setUp: function(callback) {
     this.emitter = new events.EventEmitter();
 
@@ -185,6 +185,126 @@ module.exports = {
                   .reply(200, (uri, requestBody) => {
                     test.ok(requestBody.measurements);
                     test.equal(requestBody.measurements.length, 500);
+                    test.done();
+                  });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+  testValidMeasurementTopLevelTag: function(test) {
+    config.librato.host = '127.0.0.1';
+    config.librato.tags = {test: true};
+    librato.init(null, config, this.emitter);
+
+    test.expect(5);
+    let metrics = {gauges: {'my_gauge#foo=bar': 1}};
+    this.apiServer.post('/v1/measurements')
+                  .reply(200, (uri, requestBody) => {
+                    // Top-level tags
+                    test.deepEqual(requestBody.tags, {test: true, host: '127.0.0.1'});
+
+                    let measurement = requestBody.measurements[0];
+                    test.ok(requestBody);
+                    test.equal(measurement.name, 'my_gauge');
+                    test.equal(measurement.value, 1);
+                    test.deepEqual(measurement.tags, {foo: 'bar'});
+                    test.done();
+                  });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+};
+
+module.exports.legacy = {
+  setUp: function(callback) {
+    config.librato.writeToLegacy = true;
+    config.librato.countersAsGauges = false;
+    this.emitter = new events.EventEmitter();
+
+    this.apiServer = nock('http://127.0.0.1:36001')
+                         .defaultReplyHeaders({'Content-Type': 'application/json'});
+
+    librato.init(null, config, this.emitter);
+    callback();
+  },
+
+  tearDown: function(callback) {
+    callback();
+  },
+
+  testGauges: function(test) {
+    test.expect(7);
+    let metrics = {gauges: {my_gauge: 1}};
+    this.apiServer.post('/v1/measurements')
+                  .reply(200, (uri, requestBody) => {
+                    let measurement = requestBody.measurements[0];
+                    test.ok(requestBody);
+                    test.equal(measurement.name, 'my_gauge');
+                    test.equal(measurement.value, 1);
+                    test.deepEqual(measurement.tags, {});
+                  });
+
+    this.apiServer.post('/v1/metrics')
+                  .reply(200, (uri, requestBody) => {
+                    let gauge = requestBody.gauges[0];
+                    test.ok(requestBody);
+                    test.equal(gauge.name, 'my_gauge');
+                    test.equal(gauge.value, 1);
+                    test.done();
+                  });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+  testCounters: function(test) {
+    test.expect(7);
+    let metrics = {counters: {my_counter: 1}};
+    this.apiServer.post('/v1/measurements')
+                  .reply(200, (uri, requestBody) => {
+                    let measurement = requestBody.measurements[0];
+                    test.ok(requestBody);
+                    test.equal(measurement.name, 'my_counter');
+                    test.equal(measurement.value, 1);
+                    test.deepEqual(measurement.tags, {});
+                  });
+
+    this.apiServer.post('/v1/metrics')
+                  .reply(200, (uri, requestBody) => {
+                    let counter = requestBody.counters[0];
+                    test.ok(requestBody);
+                    test.equal(counter.name, 'my_counter');
+                    test.equal(counter.value, 1);
+                    test.done();
+                  });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+  testSource: function(test) {
+    config.librato.source = 'localhost';
+    librato.init(null, config, this.emitter);
+
+    test.expect(9);
+    let metrics = {gauges: {my_gauge: 1}};
+    this.apiServer.post('/v1/measurements')
+                  .reply(200, (uri, requestBody) => {
+                    // No top level source
+                    test.equal(requestBody.source, undefined);
+
+                    let measurement = requestBody.measurements[0];
+                    test.ok(requestBody);
+                    test.equal(measurement.name, 'my_gauge');
+                    test.equal(measurement.value, 1);
+                    test.deepEqual(measurement.tags, {source: 'localhost'});
+                  });
+
+    this.apiServer.post('/v1/metrics')
+                  .reply(200, (uri, requestBody) => {
+                    let gauge = requestBody.gauges[0];
+                    test.ok(requestBody);
+                    test.equal(gauge.name, 'my_gauge');
+                    test.equal(gauge.value, 1);
+                    test.equal(gauge.source, 'localhost');
                     test.done();
                   });
 
