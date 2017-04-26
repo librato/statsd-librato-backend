@@ -42,7 +42,7 @@
   "scripts": {
     "test": "nodeunit",
     "lint": "eslint lib test",
-    "ci": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=lcov && codecov"
+    "ci": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=lcov && codecov -f lib-cov/librato.js"
   },
   "pre-commit": [
     "lint",
