@@ -220,7 +220,7 @@ metric.name#tag1=value,tag2=value:value
 ```
 
 Starting with a `#`, you would pass in a comma-separated list of tags and we will parse out the tags and values. Given the above example, a stat matching
-the above syntax will be submitted as metric to Librato with a name of `metric.name`, a value of `value` and with the tags `tag1=value` and `tag2=value. You are welcome to use any statsd client of your choosing.
+the above syntax will be submitted as metric to Librato with a name of `metric.name`, a value of `value` and with the tags `tag1=value` and `tag2=value`. You are welcome to use any statsd client of your choosing.
 
 Please note that in order to use tags, the statsd config option `keyNameSanitize` must be set to `false` to properly parse tags out of your stat name.
 
