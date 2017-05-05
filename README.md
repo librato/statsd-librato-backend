@@ -76,54 +76,17 @@ pushed to your Librato account.
 The Librato backend also supports the following optional configuration
 options under the top-level `librato` hash:
 
-`snapTime`
-* Measurement timestamps are snapped to this interval (specified in seconds). This makes it easier to align measurements sent from multiple statsd instances on a single graph. Default is to use the flush interval time.
-
-`countersAsGauges`
-* A boolean that controls whether StatsD counters are sent to Librato as gauge values (default) or as counters. When set to true (default), the backend will send the aggregate value of all increment/decrement operations during a flush period as a gauge measurement to Librato.
-
-    When set to false, the backend will track the running value of all counters and submit the current absolute value to Librato as acounter. This will require some additional memory overhead and processing time to track the running value of all counters.
-
-`skipInternalMetrics`
-* Boolean of whether to skip publishing of internal statsd metrics. This includes all metrics beginning with 'statsd.' and the metric numStats. Defaults to true, implying they are not sent.
-
-`retryDelaySecs`
-* How long to wait before retrying a failed request, in seconds.
-
-`postTimeoutSecs`
-* Max time for POST requests to Librato, in seconds.
-
-`includeMetrics`
-* An array of JavaScript regular expressions. Only metrics that match any of the regular expressions will be sent to Librato. Defaults to an empty array.
-
-    ```js
-    {
-       includeMetrics: [/^my\.included\.metrics/, /^my.specifically.included.metric$/]
-    }
-    ```
-
-`excludeMetrics`
-* An array of JavaScript regular expressions. Metrics which match any of the regular expressions will NOT be sent to Librato. If includedMetrics is specified, then patterns will be matched against the resulting list of included metrics. Defaults to an empty array.
-
-    ```js
-    {
-       excludeMetrics: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]
-    }
-    ```
-
-`globalPrefix`
-* A string to prepend to all measurement names sent to Librato. If set, a dot will automatically be added as separator between prefix and measurement name.
-
-`writeToLegacy`
-* Boolean of whether to also send metrics with the legacy `source` dimension. Defaults to `false`. Intended for users with hybrid accounts that support both tags and sources to help with the migration to tags. Set the source in the StatsD config file:
-
-    ```js
-    librato: {
-      email:  "myemail@example.com",
-      token:  "ca98e2bc23b1bfd0cbe9041e824f610491129bb952d52ca4ac22cf3eab5a1c32",
-      source: "unique-per-statsd-instance"
-    }
-    ```
+| Parameter | Description |
+| --------- |------------ |
+| snapTime  | Measurement timestamps are snapped to this interval (specified in seconds). This makes it easier to align measurements sent from multiple statsd instances on a single graph. Default is to use the flush interval time. |
+| contersAsGauges | A boolean that controls whether StatsD counters are sent to Librato as gauge values (default) or as counters. When set to true (default), the backend will send the aggregate value of all increment/decrement operations during a flush period as a gauge measurement to Librato.<br/><br/>When set to false, the backend will track the running value of all counters and submit the current absolute value to Librato as acounter. This will require some additional memory overhead and processing time to track the running value of all counters. |
+| skipInternalMetrics | Boolean of whether to skip publishing of internal statsd metrics. This includes all metrics beginning with 'statsd.' and the metric numStats. Defaults to true, implying they are not sent. |
+| retryDelaySecs | How long to wait before retrying a failed request, in seconds. |
+| postTimeoutSecs | Max time for POST requests to Librato, in seconds. |
+| includeMetrics | An array of JavaScript regular expressions. Only metrics that match any of the regular expressions will be sent to Librato. Defaults to an empty array.<br/><br/>{includeMetrics: [/^my\.included\.metrics/, /^my.specifically.included.metric$/]} |
+| excludeMetrics | An array of JavaScript regular expressions. Metrics which match any of the regular expressions will NOT be sent to Librato. If includedMetrics is specified, then patterns will be matched against the resulting list of included metrics. Defaults to an empty array.<br/><br/>{excludeMetrics: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]} |
+| globalPrefix | A string to prepend to all measurement names sent to Librato. If set, a dot will automatically be added as separator between prefix and measurement name. |
+| writeToLegacy | Boolean of whether to also send metrics with the legacy `source` dimension. Defaults to `false`. Intended for users with hybrid accounts that support both tags and sources to help with the migration to tags. Set the source in the StatsD config file:<br/><br/>librato: {<br/>email:  "myemail@example.com",<br/>token:  "ca98e2bc23b1bfd0cbe9041e82d52ca4ac22cf3eab5a1c32",<br/>source: "unique-per-statsd-instance"<br/>    } |
 
 ## Reducing published data for inactive stats
 
