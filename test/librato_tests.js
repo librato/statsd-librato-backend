@@ -4,6 +4,7 @@ const events = require('events');
 const serverPort = 36001;
 const librato = require('../lib/librato.js');
 const nock = require('nock');
+const sinon = require('sinon');
 
 const config = {
   debug: false,
@@ -13,6 +14,76 @@ const config = {
     api: 'http://127.0.0.1:' + serverPort,
     writeToLegacy: false,
   },
+};
+
+module.exports.debugConfig = {
+  setUp: function(callback) {
+    this.emitter = new events.EventEmitter();
+    global.util = this.util = require('util');
+    this.apiServer = nock('http://127.0.0.1:36001')
+                         .defaultReplyHeaders({'Content-Type': 'application/json'});
+
+
+    this.logSpy = sinon.spy(global.util, 'log');
+
+    callback();
+  },
+
+  tearDown: function(callback) {
+    config.debug = false;
+    global.util.log.restore();
+    callback();
+  },
+
+  testDebugConfigTrue: function(test) {
+    test.expect(1);
+
+    config.debug = true;
+    let metrics = {gauges: {my_gauge: 1}};
+
+    librato.init(null, config, this.emitter, this.util);
+    this.emitter.emit('flush', 123, metrics);
+
+    test.ok(this.logSpy.called);
+    test.done();
+  },
+
+  testDebugConfigFalse: function(test) {
+    test.expect(1);
+
+    let metrics = {gauges: {my_gauge: 1}};
+
+    librato.init(null, config, this.emitter, this.util);
+    test.ok(!this.logSpy.called);
+
+    this.emitter.emit('flush', 123, metrics);
+    test.done();
+  },
+
+  testNoLogger: function(test) {
+    test.expect(1);
+
+    let metrics = {gauges: {my_gauge: 1}};
+
+    librato.init(null, config, this.emitter);
+    test.ok(!this.logSpy.called);
+
+    this.emitter.emit('flush', 123, metrics);
+    test.done();
+  },
+
+  testLoggerNoDebugConfig: function(test) {
+    test.expect(1);
+    let metrics = {gauges: {my_gauge: 1}};
+    config.debug = null;
+
+    librato.init(null, config, this.emitter, this.util);
+    test.ok(!this.logSpy.called);
+
+    this.emitter.emit('flush', 123, metrics);
+    test.done();
+  },
+
 };
 
 module.exports.tags = {
