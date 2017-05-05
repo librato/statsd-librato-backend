@@ -1,3 +1,9 @@
+## [2.0.11] - 2017-05-05
+
+### Fixed
+
+- [#87](https://github.com/librato/statsd-librato-backend/issues/87) Honor `config.debug` settings
+
 ## [2.0.10] - 2017-04-25
 
 ### Changed
