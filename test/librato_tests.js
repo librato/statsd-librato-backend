@@ -409,4 +409,31 @@ module.exports.legacy = {
 
     this.emitter.emit('flush', 123, metrics);
   },
+
+  testGlobalPrefix: function(test) {
+    config.librato.sourceRegex = /^(.*?)--/;
+    config.librato.globalPrefix = 'global.prefix';
+    librato.init(null, config, this.emitter);
+
+    test.expect(6);
+    let metrics = {gauges: {'rails-application--my_gauge': 1}};
+    this.apiServer.post('/v1/measurements')
+                  .reply(200, (uri, requestBody) => {
+                    let measurement = requestBody.measurements[0];
+                    test.ok(requestBody);
+                    test.equal(measurement.name.startsWith('global.prefix'), true);
+                    test.deepEqual(measurement.tags, {source: 'rails-application'});
+                  });
+
+    this.apiServer.post('/v1/metrics')
+                  .reply(200, (uri, requestBody) => {
+                    let gauge = requestBody.gauges[0];
+                    test.ok(requestBody);
+                    test.equal(gauge.name.startsWith('global.prefix'), true);
+                    test.equal(gauge.source, 'rails-application');
+                    test.done();
+                  });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
 };
