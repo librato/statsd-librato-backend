@@ -1,3 +1,10 @@
+## [2.0.12] - 2017-05-18
+
+### Fixed
+
+- [#91](https://github.com/librato/statsd-librato-backend/issues/91) Exclude `source` from /v1/measurements payload
+- [#90](https://github.com/librato/statsd-librato-backend/issues/90) `global.prefix` bug
+
 ## [2.0.11] - 2017-05-05
 
 ### Fixed
