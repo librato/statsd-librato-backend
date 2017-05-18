@@ -386,12 +386,14 @@ module.exports.legacy = {
     config.librato.sourceRegex = /^(.*?)--/;
     librato.init(null, config, this.emitter);
 
-    test.expect(8);
+    test.expect(9);
     let metrics = {gauges: {'rails-application--my_gauge': 1}};
     this.apiServer.post('/v1/measurements')
                   .reply(200, (uri, requestBody) => {
                     let measurement = requestBody.measurements[0];
                     test.ok(requestBody);
+                    // no source when using the measurements api
+                    test.equal(measurement.source, undefined);
                     test.equal(measurement.name, 'my_gauge');
                     test.equal(measurement.value, 1);
                     test.deepEqual(measurement.tags, {source: 'rails-application'});
