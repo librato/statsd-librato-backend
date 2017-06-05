@@ -5,6 +5,7 @@ const serverPort = 36001;
 const librato = require('../lib/librato.js');
 const nock = require('nock');
 const sinon = require('sinon');
+const http = require('http');
 
 const config = {
   debug: false,
@@ -94,10 +95,12 @@ module.exports.tags = {
                          .defaultReplyHeaders({'Content-Type': 'application/json'});
 
     librato.init(null, config, this.emitter);
+    this.httpSpy = sinon.spy(http, 'request');
     callback();
   },
 
   tearDown: function(callback) {
+    http.request.restore();
     callback();
   },
 
@@ -260,6 +263,47 @@ module.exports.tags = {
                   });
 
     this.emitter.emit('flush', 123, metrics);
+  },
+
+  testBatchProperRequestCount: function(test) {
+    test.expect(3);
+    var gauges = {};
+    for (var i = 0; i < 500; i++) {
+      var key = 'gauge' + i;
+      gauges[key] = 1;
+    }
+    var metrics = {gauges: gauges};
+    this.apiServer.post('/v1/measurements')
+                  .reply(200, (uri, requestBody) => {
+                    test.ok(requestBody.measurements);
+                  });
+
+    this.emitter.emit('flush', 123, metrics);
+
+    // Let some time pass...
+    setTimeout(() => {
+      // There should have ever been one submission because we hit our maxBatchSize
+      test.ok(this.httpSpy.calledOnce);
+
+      // Try with a bigger batch...
+      for (var i = 0; i < 1500; i++) {
+        var key = 'gauge' + i;
+        gauges[key] = 1;
+      }
+      metrics = {gauges: gauges};
+      // Reset the spy
+      this.httpSpy.reset();
+
+      // Flush
+      this.emitter.emit('flush', 123, metrics);
+
+      // Let some time pass...
+      setTimeout(() => {
+        // One request, per batch of 500 metrics....
+        test.ok(this.httpSpy.calledThrice);
+        test.done();
+      });
+    }, 500);
   },
 
   testValidMeasurementTopLevelTag: function(test) {
