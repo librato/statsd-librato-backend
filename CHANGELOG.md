@@ -1,3 +1,10 @@
+## [2.0.13] - 2017-06-05
+
+### Fixed
+
+- [#93](https://github.com/librato/statsd-librato-backend/issues/93) Fix max batch size issues
+- [#94](https://github.com/librato/statsd-librato-backend/issues/94) Added a test
+
 ## [2.0.12] - 2017-05-18
 
 ### Fixed
