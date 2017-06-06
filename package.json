@@ -38,11 +38,11 @@
     "pre-commit": "^1.2.2",
     "sinon": "^2.1.0"
   },
-  "main": "index.js",
+  "main": "lib/librato.js",
   "scripts": {
     "test": "nodeunit",
     "lint": "eslint lib test",
-    "ci": "jscoverage lib && LIBRATO_COVERAGE=1 nodeunit --reporter=lcov test && codecov"
+    "ci": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=lcov && codecov -f lib-cov/librato.js"
   },
   "pre-commit": [
     "lint",
