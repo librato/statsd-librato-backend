@@ -42,9 +42,9 @@
     "pre-commit": "^1.2.2",
     "sinon": "^2.1.0"
   },
-  "main": "lib/librato.js",
+  "main": "dist/librato.js",
   "scripts": {
-    "build": "babel src/ -d lib/",
+    "build": "flow --quiet && babel src/ -d dist/",
     "prepublish": "yarn run build",
     "test": "nodeunit",
     "lint": "eslint src test"

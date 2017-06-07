@@ -2,7 +2,7 @@
 
 const events = require('events');
 const serverPort = 36001;
-const librato = require('../lib/librato.js');
+const librato = require('../dist/librato.js');
 const nock = require('nock');
 const sinon = require('sinon');
 const http = require('http');
