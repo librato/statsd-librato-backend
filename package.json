@@ -27,10 +27,16 @@
     "extend": "^3.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-preset-flow": "^6.23.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",
     "eslint-config-google": "^0.7.1",
+    "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-import": "^2.2.0",
+    "flow-bin": "^0.47.0",
+    "flow-typed": "^2.1.2",
     "nock": "^9.0.13",
     "nodeunit": "^0.11.0",
     "pre-commit": "^1.2.2",
@@ -38,8 +44,10 @@
   },
   "main": "lib/librato.js",
   "scripts": {
+    "build": "babel src/ -d lib/",
+    "prepublish": "yarn run build",
     "test": "nodeunit",
-    "lint": "eslint lib test"
+    "lint": "eslint src test"
   },
   "pre-commit": [
     "lint",

@@ -1,4 +1,4 @@
-
+// @flow
 /* jslint node: true, white: true, sloppy: true */
 /*
  * Flushes stats to Librato Metrics (https://metrics.librato.com).
@@ -23,7 +23,7 @@ var logAll;
 var api;
 var email;
 var token;
-var sourceName;
+var sourceName: string;
 var hostName;
 var sourceRegex;
 var includeMetrics;
@@ -61,12 +61,12 @@ var brokenMetrics = {};
 var tags = {};
 // Write to legacy
 var writeToLegacy = false;
-var postPayload = function (options, proto, payload, retry) {
+var postPayload = function(options, proto, payload, retry) {
   if (logAll) {
     util.log('Sending Payload: ' + payload);
   }
-  var req = proto.request(options, function (res) {
-    res.on('data', function (d) {
+  var req = proto.request(options, function(res) {
+    res.on('data', function(d) {
       // Retry 5xx codes
       if (Math.floor(res.statusCode / 100) == 5) {
         var errdata = 'HTTP ' + res.statusCode + ': ' + d;
@@ -74,7 +74,7 @@ var postPayload = function (options, proto, payload, retry) {
           if (logAll) {
             util.log('Failed to post to Librato: ' + errdata, 'LOG_ERR');
           }
-          setTimeout(function () {
+          setTimeout(function() {
             postPayload(options, proto, payload, false);
           }, retryDelaySecs * 1000);
         } else {
@@ -107,7 +107,7 @@ var postPayload = function (options, proto, payload, retry) {
       }
     });
   });
-  req.setTimeout(postTimeoutSecs * 1000, function (request) {
+  req.setTimeout(postTimeoutSecs * 1000, function(request) {
     if (logAll) {
       util.log('Timed out sending metrics to Librato', 'LOG_ERR');
     }
@@ -116,9 +116,9 @@ var postPayload = function (options, proto, payload, retry) {
   req.write(payload);
   req.end();
   libratoStats.last_flush = Math.round(new Date().getTime() / 1000);
-  req.on('error', function (errdata) {
+  req.on('error', function(errdata) {
     if (retry) {
-      setTimeout(function () {
+      setTimeout(function() {
         postPayload(options, proto, payload, false);
       }, retryDelaySecs * 1000);
     } else {
@@ -126,14 +126,14 @@ var postPayload = function (options, proto, payload, retry) {
     }
   });
 };
-var postMetrics = function (ts, gauges, counters, measurements) {
+var postMetrics = function(ts, gauges, counters, measurements) {
   var payload = {};
   var parsedHost = urlParse(api || 'https://metrics-api.librato.com');
   var path = '/v1/measurements';
   payload = {
     time: ts,
     tags: tags,
-    measurements: measurements
+    measurements: measurements,
   };
   payload = JSON.stringify(payload);
   var options = {
@@ -145,8 +145,8 @@ var postMetrics = function (ts, gauges, counters, measurements) {
       'Authorization': basicAuthHeader,
       'Content-Length': payload.length,
       'Content-Type': 'application/json',
-      'User-Agent': userAgent
-    }
+      'User-Agent': userAgent,
+    },
   };
   if (tunnelAgent) {
     options.agent = tunnelAgent;
@@ -160,7 +160,7 @@ var postMetrics = function (ts, gauges, counters, measurements) {
     payload = {
       gauges: gauges,
       counters: counters,
-      measure_time: ts
+      measure_time: ts,
     };
     payload = JSON.stringify(payload);
     options.path = '/v1/metrics';
@@ -168,10 +168,10 @@ var postMetrics = function (ts, gauges, counters, measurements) {
     postPayload(options, proto, payload, true);
   }
 };
-var sanitizeName = function (name) {
+var sanitizeName = function(name) {
   return name.replace(/[^-.:_\w]+/g, '_').substr(0, 255);
 };
-var timerGaugePct = function (timerName, values, pct, suffix) {
+var timerGaugePct = function(timerName, values, pct, suffix) {
   var thresholdIndex = Math.round((100 - pct) / 100 * values.length);
   var numInThreshold = values.length - thresholdIndex;
   if (numInThreshold <= 0) {
@@ -179,7 +179,7 @@ var timerGaugePct = function (timerName, values, pct, suffix) {
   }
   var max = values[numInThreshold - 1];
   var min = values[0];
-  var sum = values.slice(0, numInThreshold).reduce(function (s, current) {
+  var sum = values.slice(0, numInThreshold).reduce(function(s, current) {
     return s + current;
   }, 0);
   var names = timerName.split('#');
@@ -205,7 +205,7 @@ var timerGaugePct = function (timerName, values, pct, suffix) {
     count: numInThreshold,
     sum: sum,
     min: min,
-    max: max
+    max: max,
   };
 };
 var flushStats = function libratoFlush(ts, metrics) {
@@ -222,7 +222,7 @@ var flushStats = function libratoFlush(ts, metrics) {
   if (snapTime) {
     measureTime = Math.floor(ts / snapTime) * snapTime;
   }
-  var excludeMetric = function (metric) {
+  var excludeMetric = function(metric) {
     var matchesFilter = false;
     for (var index = 0; index < includeMetrics.length; index++) {
       if (includeMetrics[index].test(metric)) {
@@ -296,7 +296,7 @@ var flushStats = function libratoFlush(ts, metrics) {
       }
     }
   };
-  var parseAndSetTags = function (measureName, measure) {
+  var parseAndSetTags = function(measureName, measure) {
     // Valid format for parsing tags out: global-prefix.name#tag1=value,tag2=value
     // NOTE: Name can include the source
     var vals = measureName.split('#');
@@ -304,7 +304,7 @@ var flushStats = function libratoFlush(ts, metrics) {
       // Found tags in the measureName. Parse them out and return the measureName without the tags.
       measureName = vals.shift();
       rawTags = vals.pop().split(',');
-      rawTags.forEach(function (rawTag) {
+      rawTags.forEach(function(rawTag) {
         var name = rawTag.split('=').shift();
         var value = rawTag.split('=').pop();
         if (name.length && value.length) {
@@ -327,14 +327,14 @@ var flushStats = function libratoFlush(ts, metrics) {
     if (countersAsGauges) {
       addMeasure('gauge', {
         name: key,
-        value: metrics.counters[key]
+        value: metrics.counters[key],
       });
       continue;
     }
     if (!libratoCounters[key]) {
       libratoCounters[key] = {
         value: metrics.counters[key],
-        lastUpdate: ts
+        lastUpdate: ts,
       };
     } else {
       libratoCounters[key].value += metrics.counters[key];
@@ -342,7 +342,7 @@ var flushStats = function libratoFlush(ts, metrics) {
     }
     addMeasure('counter', {
       name: key,
-      value: libratoCounters[key].value
+      value: libratoCounters[key].value,
     });
   }
   for (key in metrics.timers) {
@@ -355,7 +355,7 @@ var flushStats = function libratoFlush(ts, metrics) {
     if (excludeMetric(key)) {
       continue;
     }
-    var sortedVals = metrics.timers[key].sort(function (a, b) {
+    var sortedVals = metrics.timers[key].sort(function(a, b) {
       return a - b;
     });
     // First build the 100% percentile
@@ -383,7 +383,7 @@ var flushStats = function libratoFlush(ts, metrics) {
           // Bins are not counted in numStats
           addMeasure('gauge', {
             name: name,
-            value: histogram[bin]
+            value: histogram[bin],
           }, false);
         }
       }
@@ -398,7 +398,7 @@ var flushStats = function libratoFlush(ts, metrics) {
     }
     addMeasure('gauge', {
       name: key,
-      value: metrics.gauges[key]
+      value: metrics.gauges[key],
     });
   }
   for (key in metrics.sets) {
@@ -407,7 +407,7 @@ var flushStats = function libratoFlush(ts, metrics) {
     }
     addMeasure('gauge', {
       name: key,
-      value: metrics.sets[key].values().length
+      value: metrics.sets[key].values().length,
     });
   }
   statCount = numStats;
@@ -415,7 +415,7 @@ var flushStats = function libratoFlush(ts, metrics) {
     if (countersAsGauges) {
       addMeasure('gauge', {
         name: 'numStats',
-        value: statCount
+        value: statCount,
       });
     } else {
       if (libratoCounters.numStats) {
@@ -424,12 +424,12 @@ var flushStats = function libratoFlush(ts, metrics) {
       } else {
         libratoCounters.numStats = {
           value: statCount,
-          lastUpdate: ts
+          lastUpdate: ts,
         };
       }
       addMeasure('counter', {
         name: 'numStats',
-        value: libratoCounters.numStats.value
+        value: libratoCounters.numStats.value,
       });
     }
   }
@@ -442,10 +442,10 @@ var backendStatus = function libratoStatus(writeCb) {
     writeCb(null, 'librato', stat, libratoStats[stat]);
   }
 };
-var buildBasicAuth = function (email, token) {
+var buildBasicAuth = function(email, token) {
   return 'Basic ' + new Buffer(email + ':' + token).toString('base64');
 };
-var buildUserAgent = function () {
+var buildUserAgent = function() {
   var str;
   var version = 'unknown';
   try {
@@ -459,7 +459,7 @@ var buildUserAgent = function () {
   }
   return 'statsd-librato-backend/' + version;
 };
-var convertStringToRegex = function (stringRegex) {
+var convertStringToRegex = function(stringRegex) {
   // XXX: Converting to Regexp will add another enclosing '//'
   if (stringRegex.length > 2 && stringRegex[0] == '/' && stringRegex[stringRegex.length - 1] == '/') {
     return new RegExp(stringRegex.slice(1, stringRegex.length - 1));
