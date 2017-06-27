@@ -136,6 +136,28 @@ module.exports.tags = {
     this.emitter.emit('flush', 123, metrics);
   },
 
+  testValidMeasurements: function(test) {
+    test.expect(8);
+    let metrics = {gauges: {'my_gauge#foo=bar': 1, 'my_gauge#foo=bar,env=stag': 1}};
+    this.apiServer.post('/v1/measurements')
+             .reply(200, (uri, requestBody) => {
+                let measurement = requestBody.measurements[0];
+                test.ok(requestBody);
+                test.equal(measurement.name, 'my_gauge');
+                test.equal(measurement.value, 1);
+                test.deepEqual(measurement.tags, {foo: 'bar'});
+
+                measurement = requestBody.measurements[1];
+                test.ok(requestBody);
+                test.equal(measurement.name, 'my_gauge');
+                test.equal(measurement.value, 1);
+                test.deepEqual(measurement.tags, {foo: 'bar', env: 'stag'});
+                test.done();
+             });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
   testValidMeasurementMultipleTags: function(test) {
     test.expect(4);
     let metrics = {gauges: {'my_gauge#foo=bar,biz=baz': 1}};
