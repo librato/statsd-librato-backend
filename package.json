@@ -27,19 +27,23 @@
     "extend": "^3.0.0"
   },
   "devDependencies": {
+    "codecov": "^2.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",
     "eslint-config-google": "^0.7.1",
     "eslint-plugin-import": "^2.2.0",
+    "istanbul": "^0.4.5",
+    "jscoverage": "^0.6.0",
     "nock": "^9.0.13",
     "nodeunit": "^0.11.0",
     "pre-commit": "^1.2.2",
     "sinon": "^2.1.0"
   },
-  "main": "lib/librato.js",
+  "main": "index.js",
   "scripts": {
     "test": "nodeunit",
-    "lint": "eslint lib test"
+    "lint": "eslint lib test",
+    "ci": "yarn test && yarn istanbul cover ./test/librato_tests.js --report lcovonly && codecov"
   },
   "pre-commit": [
     "lint",
