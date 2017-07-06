@@ -1,3 +1,9 @@
+## [2.0.14] - 2017-07-06
+
+### Fixed
+
+- [#95](https://github.com/librato/statsd-librato-backend/issues/95) Fix issue with Docker config
+
 ## [2.0.13] - 2017-06-05
 
 ### Fixed
