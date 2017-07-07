@@ -19,7 +19,7 @@ if (!fs.existsSync(configPath)) {
   configFile += "  librato: {\n";
   configFile += "    email: process.env.LIBRATO_EMAIL || 'default',\n";
   configFile += "    token: process.env.LIBRATO_TOKEN || 'token',\n";
-  configFile += "    source: process.env.LIBRATRO_SOURCE || 'env'\n";
+  configFile += "    source: process.env.LIBRATO_SOURCE || 'env'\n";
   configFile += '  },' + "\n";
   configFile += "  backends: [\"statsd-librato-backend\"],\n";
   configFile += "  port: 8125\n";
