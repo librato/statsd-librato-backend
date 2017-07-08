@@ -101,6 +101,8 @@ module.exports.tags = {
 
   tearDown: function(callback) {
     http.request.restore();
+    config.librato.alwaysIncludeTopLevelTags = false;
+    config.librato.tags = {};
     callback();
   },
 
@@ -328,6 +330,86 @@ module.exports.tags = {
 
     this.emitter.emit('flush', 123, metrics);
   },
+
+  testValidMeasurementWithTagsAndTopLevelTagsIncluded: function(test) {
+    config.librato.host = '127.0.0.1';
+    config.librato.tags = {test: true};
+    config.librato.alwaysIncludeTopLevelTags = true;
+    librato.init(null, config, this.emitter);
+
+    test.expect(4);
+    let metrics = {gauges: {'my_gauge#foo=bar,biz=baz': 1}};
+    this.apiServer.post('/v1/measurements')
+             .reply(200, (uri, requestBody) => {
+                let measurement = requestBody.measurements[0];
+                test.ok(requestBody);
+                test.equal(measurement.name, 'my_gauge');
+                test.equal(measurement.value, 1);
+                test.deepEqual(measurement.tags, {
+                  host: '127.0.0.1',
+                  test: true,
+                  foo: 'bar',
+                  biz: 'baz',
+                });
+                test.done();
+             });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+  testValidMeasurementWithTagsAndTopLevelTagsNotIncluded: function(test) {
+    config.librato.host = '127.0.0.1';
+    config.librato.tags = {test: true};
+    config.librato.alwaysIncludeTopLevelTags = false;
+    librato.init(null, config, this.emitter);
+
+    test.expect(4);
+    let metrics = {gauges: {'my_gauge#foo=bar,biz=baz,host=127.0.0.1': 1}};
+    this.apiServer.post('/v1/measurements')
+             .reply(200, (uri, requestBody) => {
+                let measurement = requestBody.measurements[0];
+                test.ok(requestBody);
+                test.equal(measurement.name, 'my_gauge');
+                test.equal(measurement.value, 1);
+                test.deepEqual(measurement.tags, {
+                  host: '127.0.0.1',
+                  foo: 'bar',
+                  biz: 'baz',
+                });
+                test.done();
+             });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+  testValidMeasurementWithTagsAndTopLevelTagsMetricTagTakesPrecedence: function(test) {
+    config.librato.host = '127.0.0.1';
+    // expect swap foo and bar values
+    config.librato.tags = {test: true, foo: 'biz', biz: 'bar'};
+    config.librato.alwaysIncludeTopLevelTags = true;
+    librato.init(null, config, this.emitter);
+
+    test.expect(4);
+    // send guage with values in desired order, also change what host is
+    let metrics = {gauges: {'my_gauge#foo=bar,biz=baz,host=127.0.0.2': 1}};
+    this.apiServer.post('/v1/measurements')
+             .reply(200, (uri, requestBody) => {
+                let measurement = requestBody.measurements[0];
+                test.ok(requestBody);
+                test.equal(measurement.name, 'my_gauge');
+                test.equal(measurement.value, 1);
+                test.deepEqual(measurement.tags, {
+                  host: '127.0.0.2',
+                  test: true,
+                  foo: 'bar',
+                  biz: 'baz',
+                });
+                test.done();
+             });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
 };
 
 module.exports.legacy = {

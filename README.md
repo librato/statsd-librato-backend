@@ -87,6 +87,7 @@ options under the top-level `librato` hash:
 | excludeMetrics | An array of JavaScript regular expressions. Metrics which match any of the regular expressions will NOT be sent to Librato. If includedMetrics is specified, then patterns will be matched against the resulting list of included metrics. Defaults to an empty array.<br/><br/>{excludeMetrics: [/^my\.excluded\.metrics/, /^my.specifically.excluded.metric$/]} |
 | globalPrefix | A string to prepend to all measurement names sent to Librato. If set, a dot will automatically be added as separator between prefix and measurement name. |
 | writeToLegacy | Boolean of whether to also send metrics with the legacy `source` dimension. Defaults to `false`. Intended for users with hybrid accounts that support both tags and sources to help with the migration to tags. Set the source in the StatsD config file:<br/><br/>librato: {<br/>email:  "myemail@example.com",<br/>token:  "ca98e2bc23b1bfd0cbe9041e82d52ca4ac22cf3eab5a1c32",<br/>source: "unique-per-statsd-instance"<br/>    } |
+| alwaysIncludeTopLevelTags | Boolean of whether to add the top level [tags] specified in the config. Defaults to `false`. Intended for users with accounts that support tags. This will first set tags on measurements from the topLevel [tags] and then overwrite or append those sent with metrics.  Set the [tags] in the StatsD config file:<br/><br/>librato: {<br/>email:  "myemail@example.com",<br/>token:  "ca98e2bc23b1bfd0cbe9041e82d52ca4ac22cf3eab5a1c32",<br/>tags: { "os" : "ubuntu", "host" : "production-web-server-1", ... },<br/>alwaysIncludeTopLevelTags: true<br/>    } |
 
 ## Reducing published data for inactive stats
 
@@ -212,7 +213,18 @@ If you want to contribute:
 2. `yarn install`
 3. Hack away
 4. If you are adding new functionality, document it in the README
-5. Push the branch up to GitHub
-6. Send a pull request
+5. Add/modify unit tests where applicable. See [testing](#Testing) below.
+6. Push the branch up to GitHub
+7. Send a pull request
+
+### Testing
+Tests live in the [test/librato_tests.js](test/librato_tests.js) file.  You can add your tests cases there and to test your changes you need to install and run `nodeunit`.
+
+        npm install -g nodeunit
+
+To run the test just use the following command:
+
+        nodeunit tests/librato_tests.js
 
 [statsd]: https://github.com/etsy/statsd
+[tags]: #tags
