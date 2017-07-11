@@ -226,5 +226,9 @@ To run the test just use the following command:
 
         nodeunit tests/librato_tests.js
 
+If you have [yarn](https://yarnpkg.com/en/) installed you can run your unit tests with:
+        
+        yarn test
+
 [statsd]: https://github.com/etsy/statsd
 [tags]: #tags
