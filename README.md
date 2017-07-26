@@ -6,7 +6,7 @@
 [![npm](https://img.shields.io/npm/l/statsd-librato-backend.svg)](https://github.com/librato/statsd-librato-backend/blob/master/LICENSE)
 ---
 
-**NOTE:** Starting with version 2.0.0 statsd-librato-backend requires a Librato account that [supports tagged metrics](https://www.librato.com/docs/kb/faq/account_questions/tags_or_sources/). 
+**BREAKING CHANGES:** Starting with version 2.0.0 statsd-librato-backend requires a Librato account that [supports tagged metrics](https://www.librato.com/docs/kb/faq/account_questions/tags_or_sources/). 
 
 If your Librato account doesn't yet support tagged metrics or you are using [a heroku addon](https://devcenter.heroku.com/articles/librato), please use the [0.1.x version](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x).
 
