@@ -212,7 +212,8 @@ If you want to contribute:
 2. `yarn install`
 3. Hack away
 4. If you are adding new functionality, document it in the README
-5. Push the branch up to GitHub
-6. Send a pull request
+5. for tests, run `yarn test`
+6. Push the branch up to GitHub
+7. Send a pull request
 
 [statsd]: https://github.com/etsy/statsd
