@@ -1,3 +1,7 @@
+## [2.0.15] - 2017-09-06
+
+- No changes. Just a version bump
+
 ## [2.0.14] - 2017-07-06
 
 ### Fixed
