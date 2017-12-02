@@ -1,5 +1,4 @@
 {
-
   "author": "Mike Heffner <mike@librato.com>",
   "name": "statsd-librato-backend",
   "description": "A StatsD backend for Librato Metrics",
