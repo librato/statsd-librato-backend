@@ -1,3 +1,10 @@
+## [2.0.16] - 2017-10-16
+- [#101](https://github.com/librato/statsd-librato-backend/pull/101) Improve logging
+
+## [2.0.15] - 2017-09-06
+
+- No changes. Just a version bump
+
 ## [2.0.14] - 2017-07-06
 
 ### Fixed
