@@ -6,7 +6,7 @@
 [![npm](https://img.shields.io/npm/l/statsd-librato-backend.svg)](https://github.com/librato/statsd-librato-backend/blob/master/LICENSE)
 ---
 
-**NOTE:** Starting with version 2.0.0 statsd-librato-backend requires a Librato account that [supports tagged metrics](https://www.librato.com/docs/kb/faq/account_questions/tags_or_sources/). 
+**BREAKING CHANGES:** Starting with version 2.0.0 statsd-librato-backend requires a Librato account that [supports tagged metrics](https://www.librato.com/docs/kb/faq/account_questions/tags_or_sources/). 
 
 If your Librato account doesn't yet support tagged metrics or you are using [a heroku addon](https://devcenter.heroku.com/articles/librato), please use the [0.1.x version](https://github.com/librato/statsd-librato-backend/tree/branch-0.1.x).
 
@@ -79,7 +79,7 @@ options under the top-level `librato` hash:
 | Parameter | Description |
 | --------- |------------ |
 | snapTime  | Measurement timestamps are snapped to this interval (specified in seconds). This makes it easier to align measurements sent from multiple statsd instances on a single graph. Default is to use the flush interval time. |
-| contersAsGauges | A boolean that controls whether StatsD counters are sent to Librato as gauge values (default) or as counters. When set to true (default), the backend will send the aggregate value of all increment/decrement operations during a flush period as a gauge measurement to Librato.<br/><br/>When set to false, the backend will track the running value of all counters and submit the current absolute value to Librato as acounter. This will require some additional memory overhead and processing time to track the running value of all counters. |
+| countersAsGauges | A boolean that controls whether StatsD counters are sent to Librato as gauge values (default) or as counters. When set to true (default), the backend will send the aggregate value of all increment/decrement operations during a flush period as a gauge measurement to Librato.<br/><br/>When set to false, the backend will track the running value of all counters and submit the current absolute value to Librato as acounter. This will require some additional memory overhead and processing time to track the running value of all counters. |
 | skipInternalMetrics | Boolean of whether to skip publishing of internal statsd metrics. This includes all metrics beginning with 'statsd.' and the metric numStats. Defaults to true, implying they are not sent. |
 | retryDelaySecs | How long to wait before retrying a failed request, in seconds. |
 | postTimeoutSecs | Max time for POST requests to Librato, in seconds. |
@@ -213,22 +213,9 @@ If you want to contribute:
 2. `yarn install`
 3. Hack away
 4. If you are adding new functionality, document it in the README
-5. Add/modify unit tests where applicable. See [testing](#Testing) below.
+5. for tests, run `yarn test`
 6. Push the branch up to GitHub
 7. Send a pull request
-
-### Testing
-Tests live in the [test/librato_tests.js](test/librato_tests.js) file.  You can add your tests cases there and to test your changes you need to install and run `nodeunit`.
-
-        npm install -g nodeunit
-
-To run the test just use the following command:
-
-        nodeunit tests/librato_tests.js
-
-If you have [yarn](https://yarnpkg.com/en/) installed you can run your unit tests with:
-        
-        yarn test
 
 [statsd]: https://github.com/etsy/statsd
 [tags]: #tags

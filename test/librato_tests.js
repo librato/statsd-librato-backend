@@ -157,6 +157,136 @@ module.exports.tags = {
     this.emitter.emit('flush', 123, metrics);
   },
 
+  testTimerWithOneMeasurement: function(test) {
+    test.expect(8);
+    let metrics = {
+      timers: {
+        'my_timer#tag=foo': [
+          41,
+        ],
+      },
+      timer_data: {'my_timer#tag=foo': null},
+    };
+    this.apiServer.post('/v1/measurements')
+      .reply(200, (uri, requestBody) => {
+        let measurement = requestBody.measurements[0];
+        test.ok(measurement);
+        test.equal(measurement.name, 'my_timer');
+        test.equal(measurement.value, undefined);
+        test.equal(measurement.stddev_m2, 0);
+        test.equal(measurement.min, 41);
+        test.equal(measurement.max, 41);
+        test.equal(measurement.sum, 41);
+        test.deepEqual(measurement.tags, {tag: 'foo'});
+        test.done();
+      });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+
+  testLargeTimersPercentiles: function(test) {
+    test.expect(18);
+    let metrics = {
+      timers: {
+        'my_timer#tag=foo': [
+          1,
+          4,
+          7,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          29,
+          33,
+          37,
+          40,
+          45,
+          50,
+          56,
+          62,
+          69,
+        ],
+      },
+      timer_data: {'my_timer#tag=foo': null},
+      pctThreshold: {90: 90},
+    };
+    this.apiServer.post('/v1/measurements')
+      .reply(200, (uri, requestBody) => {
+        let hundredth = requestBody.measurements[0];
+        test.ok(hundredth);
+        test.equal(hundredth.name, 'my_timer');
+        test.equal(hundredth.value, undefined);
+        test.equal(hundredth.min, 1);
+        test.equal(hundredth.count, 18);
+        test.equal(hundredth.stddev_m2, 20.502191816511857);
+        test.equal(hundredth.max, 69);
+        test.equal(hundredth.sum, 538);
+        test.deepEqual(hundredth.tags, {tag: 'foo'});
+
+        let measurement = requestBody.measurements[1];
+        test.ok(measurement);
+        test.equal(measurement.name, 'my_timer.90');
+        test.equal(measurement.value, undefined);
+        test.equal(measurement.min, 1);
+        test.equal(measurement.count, 16);
+        test.equal(measurement.stddev_m2, 16.86799237214277);
+        test.equal(measurement.max, 56);
+        test.equal(measurement.sum, 407);
+        test.deepEqual(measurement.tags, {tag: 'foo'});
+        test.done();
+      });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
+  testLargeTimers: function(test) {
+    test.expect(9);
+    let metrics = {
+      timers: {
+        'my_timer#tag=foo': [
+          1,
+          4,
+          7,
+          10,
+          13,
+          16,
+          19,
+          22,
+          25,
+          29,
+          33,
+          37,
+          40,
+          45,
+          50,
+          56,
+          62,
+          69,
+        ],
+      },
+      timer_data: {'my_timer#tag=foo': null},
+    };
+    this.apiServer.post('/v1/measurements')
+      .reply(200, (uri, requestBody) => {
+        let measurement = requestBody.measurements[0];
+        test.ok(measurement);
+        test.equal(measurement.name, 'my_timer');
+        test.equal(measurement.value, undefined);
+        test.equal(measurement.min, 1);
+        test.equal(measurement.count, 18);
+        test.equal(measurement.stddev_m2, 20.502191816511857);
+        test.equal(measurement.max, 69);
+        test.equal(measurement.sum, 538);
+        test.deepEqual(measurement.tags, {tag: 'foo'});
+        test.done();
+      });
+
+    this.emitter.emit('flush', 123, metrics);
+  },
+
   testTimers: function(test) {
     test.expect(7);
     let metrics = {
