@@ -24,7 +24,7 @@ publishes stats to [Librato](https://metrics.librato.com).
 
 ## Installation
 
-    $ cd /path/to/statsd
+    $ cd /path/to/statsd  # e.g. /usr/lib/node_modules/statsd
     $ npm install statsd-librato-backend
 
 ## Configuration
